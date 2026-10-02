@@ -10,8 +10,8 @@
         
         body { 
             font-family: 'Inter', system-ui, -apple-system, sans-serif; 
-            background-color: #f8fafc; /* Keep base clean for readability */
-            color: #333d29; /* Charcoal Brown */
+            background-color: #f8fafc; 
+            color: #333d29; 
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
@@ -21,44 +21,56 @@
             position: fixed; top: 0; width: 100%; 
             background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid #c2c5aa; /* Dry Sage */
+            border-bottom: 1px solid rgba(194, 197, 170, 0.5); /* Semi-transparent Dry Sage */
             padding: 1rem 5%; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
         }
         
-        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #656d4a; /* Dusty Olive */ }
-        .logo span { color: #333d29; /* Charcoal Brown */ }
+        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #656d4a; }
+        .logo span { color: #333d29; }
 
         .nav-links { display: none; } 
         
-        /* Mobile Hamburger Menu */
         .mobile-menu-btn {
             background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333d29;
         }
 
-        /* Modern Hero Section */
+        /* 
+         * UPGRADED HERO SECTION 
+         * Includes the parallax college image with a Dry Sage gradient overlay
+         */
         .hero {
-            padding: 8rem 5% 4rem; 
+            padding: 11rem 5% 7rem; /* Added more padding to show off the image */
             text-align: center;
-            /* Gradient from Dry Sage to white */
-            background: linear-gradient(180deg, #c2c5aa 0%, #f8fafc 100%);
+            
+            /* Layer 1: The Gradient Overlay (RGBA format of Dry Sage fading to solid background) */
+            /* Layer 2: The Raw Image URL */
+            background: 
+                linear-gradient(180deg, rgba(194, 197, 170, 0.88) 0%, rgba(248, 250, 252, 1) 100%),
+                url('https://raw.githubusercontent.com/AbhilashBhairi/AbhiPravesh/main/MTECPDPL.jpeg');
+            
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates the Parallax scrolling effect */
         }
 
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4rem); 
             font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1.5rem;
-            color: #333d29; /* Charcoal Brown */
+            color: #333d29; 
+            position: relative; /* Keeps text above the blended image */
         }
 
         .hero h1 .gradient-text {
-            /* Gradient from Toffee Brown to Dusty Olive */
             background: linear-gradient(135deg, #936639, #656d4a);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.125rem; color: #414833; /* Ebony */
+            font-size: 1.125rem; color: #414833; 
             max-width: 600px; margin: 0 auto 2.5rem;
+            font-weight: 500;
+            position: relative;
         }
 
         /* SaaS Style Buttons */
@@ -66,22 +78,23 @@
             display: inline-block; padding: 0.875rem 2rem; border-radius: 9999px;
             font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
             transition: all 0.2s ease;
+            position: relative;
         }
         
         .btn-primary {
-            background-color: #656d4a; /* Dusty Olive */ 
+            background-color: #656d4a;  
             color: white;
             box-shadow: 0 4px 14px 0 rgba(101, 109, 74, 0.39);
         }
         
         .btn-primary:hover {
-            background-color: #414833; /* Ebony */ 
+            background-color: #414833; 
             transform: translateY(-2px);
         }
 
         .btn-secondary {
             background-color: white; color: #333d29; 
-            border: 1px solid #a68a64; /* Camel */
+            border: 1px solid #a68a64; 
             margin-top: 1rem;
         }
         
@@ -98,7 +111,7 @@
         /* SaaS Cards */
         .card {
             background: white; padding: 2rem; border-radius: 16px;
-            border: 1px solid #c2c5aa; /* Dry Sage */
+            border: 1px solid #c2c5aa; 
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -106,26 +119,25 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #a68a64; /* Camel */
+            border-color: #a68a64; 
         }
 
         .card-icon {
             font-size: 2rem; margin-bottom: 1rem; 
-            background: #b6ad90; /* Khaki Beige */
+            background: #b6ad90; 
             color: #333d29;
             width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center;
             border-radius: 12px;
         }
 
         .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: #333d29; }
-        .card p { color: #582f0e; /* Dark Walnut */ font-size: 0.95rem; }
+        .card p { color: #582f0e; font-size: 0.95rem; }
 
-        /* Tablet & Desktop Media Queries */
         @media (min-width: 768px) {
             .mobile-menu-btn { display: none; }
             .nav-links { display: flex; gap: 2rem; align-items: center; }
-            .nav-links a { color: #414833; /* Ebony */ text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
-            .nav-links a:hover { color: #7f4f24; /* Saddle Brown */ }
+            .nav-links a { color: #414833; text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
+            .nav-links a:hover { color: #7f4f24; }
             .btn-secondary { margin-top: 0; margin-left: 1rem; }
             .features-grid { grid-template-columns: repeat(3, 1fr); }
         }
@@ -133,7 +145,6 @@
 </head>
 <body>
 
-    <!-- Top Navigation -->
     <nav>
         <div class="logo">Edu<span>Portal</span></div>
         <button class="mobile-menu-btn">☰</button>
@@ -143,7 +154,6 @@
         </div>
     </nav>
 
-    <!-- Hero / Landing Section -->
     <header class="hero">
         <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
         <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
@@ -153,7 +163,6 @@
         </div>
     </header>
 
-    <!-- Features Section -->
     <section class="features">
         <div class="features-grid">
             <div class="card">
