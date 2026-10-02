@@ -21,7 +21,7 @@
             position: fixed; top: 0; width: 100%; 
             background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(194, 197, 170, 0.5); /* Semi-transparent Dry Sage */
+            border-bottom: 1px solid rgba(194, 197, 170, 0.5); 
             padding: 1rem 5%; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
         }
@@ -36,29 +36,41 @@
         }
 
         /* 
-         * UPGRADED HERO SECTION 
-         * Includes the parallax college image with a Dry Sage gradient overlay
+         * REFINED PARALLAX HERO
+         * Top is fully clear. Bottom melts into the background.
          */
         .hero {
-            padding: 11rem 5% 7rem; /* Added more padding to show off the image */
+            padding: 10rem 5% 5rem; 
             text-align: center;
-            
-            /* Layer 1: The Gradient Overlay (RGBA format of Dry Sage fading to solid background) */
-            /* Layer 2: The Raw Image URL */
             background: 
-                linear-gradient(180deg, rgba(194, 197, 170, 0.88) 0%, rgba(248, 250, 252, 1) 100%),
+                linear-gradient(180deg, 
+                    rgba(248, 250, 252, 0) 0%,      /* Top 0% is completely clear */
+                    rgba(248, 250, 252, 0) 75%,     /* Stays clear most of the way down */
+                    rgba(248, 250, 252, 1) 100%     /* Only fades to solid at the very bottom edge */
+                ),
                 url('https://raw.githubusercontent.com/AbhilashBhairi/AbhiPravesh/main/MTECPDPL.jpeg');
-            
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Creates the Parallax scrolling effect */
+            background-attachment: fixed;
+        }
+
+        /* FROSTED GLASS TEXT CONTAINER */
+        .hero-content {
+            max-width: 850px;
+            margin: 0 auto;
+            background: rgba(248, 250, 252, 0.75); /* 75% solid backing */
+            backdrop-filter: blur(12px);          /* Blurs the image directly behind text */
+            -webkit-backdrop-filter: blur(12px);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(194, 197, 170, 0.6); /* Dry Sage border */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .hero h1 {
             font-size: clamp(2.5rem, 5vw, 4rem); 
             font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1.5rem;
             color: #333d29; 
-            position: relative; /* Keeps text above the blended image */
         }
 
         .hero h1 .gradient-text {
@@ -70,7 +82,6 @@
             font-size: 1.125rem; color: #414833; 
             max-width: 600px; margin: 0 auto 2.5rem;
             font-weight: 500;
-            position: relative;
         }
 
         /* SaaS Style Buttons */
@@ -78,7 +89,6 @@
             display: inline-block; padding: 0.875rem 2rem; border-radius: 9999px;
             font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
             transition: all 0.2s ease;
-            position: relative;
         }
         
         .btn-primary {
@@ -103,9 +113,9 @@
         }
 
         /* Features Section */
-        .features { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+        .features { padding: 2rem 5% 4rem; max-width: 1200px; margin: 0 auto; }
         .features-grid {
-            display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem;
+            display: grid; grid-template-columns: 1fr; gap: 2rem;
         }
 
         /* SaaS Cards */
@@ -155,11 +165,14 @@
     </nav>
 
     <header class="hero">
-        <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
-        <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
-        <div>
-            <button class="btn btn-primary" onclick="alert('We will build the application form next!')">Start Application</button>
-            <button class="btn btn-secondary">Check TS EAMCET Rank</button>
+        <!-- New Frosted Glass Container -->
+        <div class="hero-content">
+            <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
+            <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
+            <div>
+                <button class="btn btn-primary" onclick="alert('We will build the application form next!')">Start Application</button>
+                <button class="btn btn-secondary">Check TS EAMCET Rank</button>
+            </div>
         </div>
     </header>
 
