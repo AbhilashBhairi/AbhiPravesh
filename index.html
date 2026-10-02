@@ -10,8 +10,8 @@
         
         body { 
             font-family: 'Inter', system-ui, -apple-system, sans-serif; 
-            background-color: #f8fafc; /* Soft SaaS background */
-            color: #0f172a; 
+            background-color: #f8fafc; /* Keep base clean for readability */
+            color: #333d29; /* Charcoal Brown */
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
@@ -19,42 +19,46 @@
         /* Glassmorphism Navigation */
         nav { 
             position: fixed; top: 0; width: 100%; 
-            background: rgba(255, 255, 255, 0.8); 
+            background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid #e2e8f0; 
+            border-bottom: 1px solid #c2c5aa; /* Dry Sage */
             padding: 1rem 5%; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
         }
         
-        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #4f46e5; }
-        .logo span { color: #0f172a; }
+        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #656d4a; /* Dusty Olive */ }
+        .logo span { color: #333d29; /* Charcoal Brown */ }
 
-        .nav-links { display: none; } /* Hidden on mobile by default */
+        .nav-links { display: none; } 
         
         /* Mobile Hamburger Menu */
         .mobile-menu-btn {
-            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #0f172a;
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333d29;
         }
 
         /* Modern Hero Section */
         .hero {
-            padding: 8rem 5% 4rem; /* Top padding clears fixed nav */
+            padding: 8rem 5% 4rem; 
             text-align: center;
-            background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+            /* Gradient from Dry Sage to white */
+            background: linear-gradient(180deg, #c2c5aa 0%, #f8fafc 100%);
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem); /* Auto-scales based on screen size */
+            font-size: clamp(2.5rem, 5vw, 4rem); 
             font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1.5rem;
+            color: #333d29; /* Charcoal Brown */
         }
 
         .hero h1 .gradient-text {
-            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            /* Gradient from Toffee Brown to Dusty Olive */
+            background: linear-gradient(135deg, #936639, #656d4a);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.125rem; color: #475569; max-width: 600px; margin: 0 auto 2.5rem;
+            font-size: 1.125rem; color: #414833; /* Ebony */
+            max-width: 600px; margin: 0 auto 2.5rem;
         }
 
         /* SaaS Style Buttons */
@@ -65,16 +69,24 @@
         }
         
         .btn-primary {
-            background-color: #4f46e5; color: white;
-            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+            background-color: #656d4a; /* Dusty Olive */ 
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(101, 109, 74, 0.39);
         }
         
         .btn-primary:hover {
-            background-color: #4338ca; transform: translateY(-2px);
+            background-color: #414833; /* Ebony */ 
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: white; color: #0f172a; border: 1px solid #e2e8f0; margin-top: 1rem;
+            background-color: white; color: #333d29; 
+            border: 1px solid #a68a64; /* Camel */
+            margin-top: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f8fafc;
         }
 
         /* Features Section */
@@ -86,7 +98,7 @@
         /* SaaS Cards */
         .card {
             background: white; padding: 2rem; border-radius: 16px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #c2c5aa; /* Dry Sage */
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -94,23 +106,26 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #a68a64; /* Camel */
         }
 
         .card-icon {
-            font-size: 2rem; margin-bottom: 1rem; background: #eff6ff;
-            width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin-bottom: 1rem; 
+            background: #b6ad90; /* Khaki Beige */
+            color: #333d29;
+            width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center;
             border-radius: 12px;
         }
 
-        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .card p { color: #64748b; font-size: 0.95rem; }
+        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: #333d29; }
+        .card p { color: #582f0e; /* Dark Walnut */ font-size: 0.95rem; }
 
         /* Tablet & Desktop Media Queries */
         @media (min-width: 768px) {
             .mobile-menu-btn { display: none; }
             .nav-links { display: flex; gap: 2rem; align-items: center; }
-            .nav-links a { color: #475569; text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
-            .nav-links a:hover { color: #0f172a; }
+            .nav-links a { color: #414833; /* Ebony */ text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
+            .nav-links a:hover { color: #7f4f24; /* Saddle Brown */ }
             .btn-secondary { margin-top: 0; margin-left: 1rem; }
             .features-grid { grid-template-columns: repeat(3, 1fr); }
         }
