@@ -5,77 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JNTUH Admission Portal</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; color: #1e293b; margin: 0; }
-        nav { padding: 1rem 2rem; background-color: #0f172a; color: white; display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { font-weight: bold; font-size: 1.25rem; letter-spacing: 0.5px; }
-        .nav-buttons button { background: none; border: none; color: #cbd5e1; cursor: pointer; font-size: 1rem; margin-left: 1.5rem; }
-        main { padding: 3rem 2rem; max-width: 900px; margin: 0 auto; }
-        .btn-primary { padding: 0.8rem 2rem; background-color: #2563eb; color: white; border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; font-weight: bold; margin-top: 2.5rem; }
-        .card { padding: 1.5rem; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #f8fafc; margin-bottom: 1.5rem;}
-        .status-badge { margin-top: 1rem; padding: 0.5rem; background-color: #e2e8f0; color: #475569; text-align: center; border-radius: 4px; font-size: 0.85rem; }
-        .hidden { display: none; }
+        /* Modern CSS Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background-color: #f8fafc; /* Soft SaaS background */
+            color: #0f172a; 
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Glassmorphism Navigation */
+        nav { 
+            position: fixed; top: 0; width: 100%; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e2e8f0; 
+            padding: 1rem 5%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #4f46e5; }
+        .logo span { color: #0f172a; }
+
+        .nav-links { display: none; } /* Hidden on mobile by default */
+        
+        /* Mobile Hamburger Menu */
+        .mobile-menu-btn {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #0f172a;
+        }
+
+        /* Modern Hero Section */
+        .hero {
+            padding: 8rem 5% 4rem; /* Top padding clears fixed nav */
+            text-align: center;
+            background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Auto-scales based on screen size */
+            font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.125rem; color: #475569; max-width: 600px; margin: 0 auto 2.5rem;
+        }
+
+        /* SaaS Style Buttons */
+        .btn {
+            display: inline-block; padding: 0.875rem 2rem; border-radius: 9999px;
+            font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background-color: #4f46e5; color: white;
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+        }
+        
+        .btn-primary:hover {
+            background-color: #4338ca; transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white; color: #0f172a; border: 1px solid #e2e8f0; margin-top: 1rem;
+        }
+
+        /* Features Section */
+        .features { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+        .features-grid {
+            display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem;
+        }
+
+        /* SaaS Cards */
+        .card {
+            background: white; padding: 2rem; border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-icon {
+            font-size: 2rem; margin-bottom: 1rem; background: #eff6ff;
+            width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px;
+        }
+
+        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .card p { color: #64748b; font-size: 0.95rem; }
+
+        /* Tablet & Desktop Media Queries */
+        @media (min-width: 768px) {
+            .mobile-menu-btn { display: none; }
+            .nav-links { display: flex; gap: 2rem; align-items: center; }
+            .nav-links a { color: #475569; text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
+            .nav-links a:hover { color: #0f172a; }
+            .btn-secondary { margin-top: 0; margin-left: 1rem; }
+            .features-grid { grid-template-columns: repeat(3, 1fr); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- Top Navigation -->
     <nav>
-        <div class="nav-logo">JNTUH Admission Portal</div>
-        <div class="nav-buttons">
-            <button onclick="showView('home')">Home</button>
-            <button onclick="showView('dashboard')">Dashboard</button>
+        <div class="logo">Edu<span>Portal</span></div>
+        <button class="mobile-menu-btn">☰</button>
+        <div class="nav-links">
+            <a onclick="alert('Dashboard coming next!')">Student Login</a>
+            <a onclick="alert('Admin view coming later!')">College Admin</a>
         </div>
     </nav>
 
-    <main>
-        <!-- HOME VIEW -->
-        <div id="home-view" style="text-align: center; margin-top: 2rem;">
-            <h1 style="color: #0f172a; font-size: 2.5rem; margin-bottom: 1rem;">B.Tech Admissions 2026</h1>
-            <p style="font-size: 1.2rem; color: #64748b; max-width: 600px; margin: 0 auto;">
-                Welcome to the official counseling and admission portal. Apply for Category A (Convenor Quota) and Category B (Management Quota) seats.
-            </p>
-            <button class="btn-primary" onclick="showView('dashboard')">Start Application</button>
+    <!-- Hero / Landing Section -->
+    <header class="hero">
+        <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
+        <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
+        <div>
+            <button class="btn btn-primary" onclick="alert('We will build the application form next!')">Start Application</button>
+            <button class="btn btn-secondary">Check TS EAMCET Rank</button>
         </div>
+    </header>
 
-        <!-- DASHBOARD VIEW -->
-        <div id="dashboard-view" class="hidden">
-            <h2 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 2rem;">
-                Applicant Dashboard
-            </h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                
-                <div class="card">
-                    <h3 style="margin-top: 0;">1. Academic Details</h3>
-                    <p style="font-size: 0.95rem; color: #64748b; line-height: 1.5;">
-                        Enter your TS EAMCET Hall Ticket number, Rank, and Intermediate (10+2) scores.
-                    </p>
-                    <div class="status-badge">Database not connected yet</div>
-                </div>
-
-                <div class="card">
-                    <h3 style="margin-top: 0;">2. Verification Documents</h3>
-                    <p style="font-size: 0.95rem; color: #64748b; line-height: 1.5;">
-                        Upload your SSC, Inter Memo, Transfer Certificate, and ePASS Income/Caste certificates.
-                    </p>
-                    <div class="status-badge">Storage not connected yet</div>
-                </div>
-
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-grid">
+            <div class="card">
+                <div class="card-icon">📱</div>
+                <h3>1. Register Online</h3>
+                <p>Create your secure account. Enter your basic details and TS EAMCET hall ticket number in seconds.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📄</div>
+                <h3>2. Upload Documents</h3>
+                <p>Snap a picture of your Inter memo, SSC, and Caste/Income certificates for automatic verification.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎓</div>
+                <h3>3. Select Branches</h3>
+                <p>Choose your preferred branches (CSE, IT, ECE) and wait for the seamless real-time seat allotment.</p>
             </div>
         </div>
-    </main>
+    </section>
 
-    <script>
-        // This tiny bit of JavaScript handles the swapping between Home and Dashboard
-        function showView(viewId) {
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('dashboard-view').classList.add('hidden');
-            
-            if(viewId === 'home') {
-                document.getElementById('home-view').classList.remove('hidden');
-            } else {
-                document.getElementById('dashboard-view').classList.remove('hidden');
-            }
-        }
-    </script>
 </body>
 </html>
