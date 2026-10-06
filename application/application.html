@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNTUH Admission Portal</title>
+    <style>
+        /* Modern CSS Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background-color: #f8fafc; 
+            color: #333d29; 
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Utility Class for JavaScript Swapping */
+        .hidden { display: none !important; }
+
+        /* Glassmorphism Navigation */
+        nav { 
+            position: fixed; top: 0; width: 100%; 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(194, 197, 170, 0.5); 
+            padding: 1rem 5%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #656d4a; cursor: pointer; }
+        .logo span { color: #333d29; }
+
+        .nav-links { display: none; } 
+        
+        .mobile-menu-btn {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333d29;
+        }
+
+        /* PARALLAX HERO */
+        .hero {
+            padding: 10rem 5% 5rem; 
+            text-align: center;
+            background: 
+                linear-gradient(180deg, 
+                    rgba(248, 250, 252, 0) 0%,      
+                    rgba(248, 250, 252, 0) 75%,     
+                    rgba(248, 250, 252, 1) 100%     
+                ),
+                url('https://raw.githubusercontent.com/AbhilashBhairi/AbhiPravesh/main/MTECPDPL.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-content {
+            max-width: 1020px; 
+            margin: 0 auto;
+            background: rgba(248, 250, 252, 0.75); 
+            backdrop-filter: blur(12px);          
+            -webkit-backdrop-filter: blur(12px);
+            padding: 3.5rem 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(194, 197, 170, 0.6); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); 
+            font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1.5rem;
+            color: #333d29; 
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #936639, #656d4a);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.125rem; color: #414833; 
+            max-width: 750px; 
+            margin: 0 auto 2.5rem;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block; padding: 0.875rem 2rem; border-radius: 9999px;
+            font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background-color: #656d4a;  
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(101, 109, 74, 0.39);
+        }
+        .btn-primary:hover {
+            background-color: #414833; 
+            transform: translateY(-2px);
+        }
+        .btn-submit {
+            background-color: #333d29; color: white; width: 100%; margin-top: 1rem; padding: 1rem;
+        }
+        .btn-submit:hover { background-color: #582f0e; }
+
+        /* Features Section */
+        .features { padding: 2rem 5% 4rem; max-width: 1200px; margin: 0 auto; }
+        .features-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+
+        /* SaaS Cards & Form Containers */
+        .card {
+            background: white; padding: 2rem; border-radius: 16px;
+            border: 1px solid #c2c5aa; 
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .features .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #a68a64; 
+        }
+
+        .card-icon {
+            font-size: 2rem; margin-bottom: 1rem; 
+            background: #b6ad90; color: #333d29;
+            width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px;
+        }
+        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: #333d29; }
+        .card p { color: #582f0e; font-size: 0.95rem; }
+
+        /* DASHBOARD STYLING */
+        .dashboard-container {
+            padding: 8rem 5% 4rem; /* Clears nav */
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .dashboard-header { margin-bottom: 2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #414833; font-size: 0.95rem; }
+        .form-control {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 1px solid #c2c5aa; border-radius: 8px;
+            font-family: inherit; font-size: 1rem;
+            background-color: #f8fafc;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus { outline: none; border-color: #656d4a; background-color: white; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        
+        .file-upload-box {
+            border: 2px dashed #c2c5aa; padding: 1.5rem; text-align: center;
+            border-radius: 8px; background-color: #f8fafc; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .file-upload-box:hover { border-color: #656d4a; background-color: white; }
+
+        @media (min-width: 768px) {
+            .mobile-menu-btn { display: none; }
+            .nav-links { display: flex; gap: 2rem; align-items: center; }
+            .nav-links a { color: #414833; text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
+            .nav-links a:hover { color: #7f4f24; }
+            .features-grid { grid-template-columns: repeat(3, 1fr); }
+            .form-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <!-- Clicking the logo returns user to the home screen -->
+        <div class="logo" onclick="switchView('home')">Edu<span>Portal</span></div>
+        <button class="mobile-menu-btn">☰</button>
+        <div class="nav-links">
+            <a onclick="switchView('dashboard')">Student Login</a>
+            <a onclick="alert('Admin view coming later!')">College Admin</a>
+        </div>
+    </nav>
+
+    <!-- ==================== HOME VIEW ==================== -->
+    <div id="home-view">
+        <header class="hero">
+            <div class="hero-content">
+                <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
+                <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
+                <div>
+                    <!-- This button triggers the JavaScript to show the dashboard -->
+                    <button class="btn btn-primary" onclick="switchView('dashboard')">Start Application</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="features">
+            <div class="features-grid">
+                <div class="card">
+                    <div class="card-icon">📱</div>
+                    <h3>1. Register Online</h3>
+                    <p>Create your secure account. Enter your basic details and TS EAMCET hall ticket number in seconds.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📄</div>
+                    <h3>2. Upload Documents</h3>
+                    <p>Snap a picture of your Inter memo, SSC, and Caste/Income certificates for automatic verification.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h3>3. Select Branches</h3>
+                    <p>Choose your preferred branches (CSE, IT, ECE) and wait for the seamless real-time seat allotment.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== DASHBOARD VIEW ==================== -->
+    <div id="dashboard-view" class="dashboard-container hidden">
+        <div class="dashboard-header">
+            <h2 style="font-size: 2rem; color: #333d29;">Application Form</h2>
+            <p style="color: #656d4a;">Complete your details to generate your application ID.</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('We need a database to save this! Let\'s build Supabase next.');">
+            
+            <!-- Section 1: Academics -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Academic & Personal Details</h3>
+                <div class="form-grid" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Full Name (As per SSC)</label>
+                        <input type="text" class="form-control" placeholder="e.g. Rahul Kumar" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Reservation Category</label>
+                        <select class="form-control" required>
+                            <option value="">Select Category...</option>
+                            <option value="OC">OC (Open Category)</option>
+                            <option value="BCA">BC-A</option>
+                            <option value="BCB">BC-B</option>
+                            <option value="SC">SC</option>
+                            <option value="ST">ST</option>
+                            <option value="EWS">EWS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>TS EAMCET Hall Ticket No.</label>
+                        <input type="text" class="form-control" placeholder="e.g. 2324A0123" required>
+                    </div>
+                    <div class="form-group">
+                        <label>TS EAMCET Rank</label>
+                        <input type="number" class="form-control" placeholder="e.g. 12450" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Preferences -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Branch Preferences</h3>
+                <div class="form-grid" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Admission Quota</label>
+                        <select class="form-control" required>
+                            <option value="">Select Quota...</option>
+                            <option value="A">Category-A (Convenor Quota)</option>
+                            <option value="B">Category-B (Management Quota)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>1st Preference Branch</label>
+                        <select class="form-control" required>
+                            <option value="">Select Branch...</option>
+                            <option value="CSE">Computer Science & Engineering (CSE)</option>
+                            <option value="CSM">CSE - AI & Machine Learning (CSM)</option>
+                            <option value="ECE">Electronics & Communication (ECE)</option>
+                            <option value="IT">Information Technology (IT)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Document Upload -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Document Verification (ePASS)</h3>
+                <p style="font-size: 0.9rem; color: #582f0e; margin-bottom: 1.5rem;">Upload clear PDF or JPG formats. Max size 2MB per file.</p>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>SSC Memo</label>
+                        <div class="file-upload-box">📄 Click to upload SSC</div>
+                    </div>
+                    <div class="form-group">
+                        <label>TS EAMCET Rank Card</label>
+                        <div class="file-upload-box">📄 Click to upload Rank Card</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-submit">Submit Application</button>
+        </form>
+    </div>
+
+    <!-- JavaScript to handle page swapping -->
+    <script>
+        function switchView(viewName) {
+            // Hide both views first
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.add('hidden');
+            
+            // Show the requested view
+            if (viewName === 'home') {
+                document.getElementById('home-view').classList.remove('hidden');
+            } else if (viewName === 'dashboard') {
+                document.getElementById('dashboard-view').classList.remove('hidden');
+            }
+
+            // Scroll to the top of the page smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
