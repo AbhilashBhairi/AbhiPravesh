@@ -132,8 +132,8 @@
 
         /* DASHBOARD STYLING */
         .dashboard-container {
-            padding: 8rem 5% 4rem; /* Clears nav */
-            max-width: 900px;
+            padding: 8rem 5% 4rem; 
+            max-width: 1200px; /* WIDENED FROM 900px TO 1200px */
             margin: 0 auto;
         }
         .dashboard-header { margin-bottom: 2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; }
@@ -171,7 +171,6 @@
 <body>
 
     <nav>
-        <!-- Clicking the logo returns user to the home screen -->
         <div class="logo" onclick="switchView('home')">Edu<span>Portal</span></div>
         <button class="mobile-menu-btn">☰</button>
         <div class="nav-links">
@@ -187,7 +186,6 @@
                 <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
                 <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
                 <div>
-                    <!-- This button triggers the JavaScript to show the dashboard -->
                     <button class="btn btn-primary" onclick="switchView('dashboard')">Start Application</button>
                 </div>
             </div>
@@ -223,7 +221,6 @@
 
         <form onsubmit="event.preventDefault(); alert('We need a database to save this! Let\'s build Supabase next.');">
             
-            <!-- Section 1: Academics -->
             <div class="card" style="margin-bottom: 2rem;">
                 <h3>Academic & Personal Details</h3>
                 <div class="form-grid" style="margin-top: 1.5rem;">
@@ -254,7 +251,6 @@
                 </div>
             </div>
 
-            <!-- Section 2: Preferences -->
             <div class="card" style="margin-bottom: 2rem;">
                 <h3>Branch Preferences</h3>
                 <div class="form-grid" style="margin-top: 1.5rem;">
@@ -279,7 +275,6 @@
                 </div>
             </div>
 
-            <!-- Section 3: Document Upload -->
             <div class="card" style="margin-bottom: 2rem;">
                 <h3>Document Verification (ePASS)</h3>
                 <p style="font-size: 0.9rem; color: #582f0e; margin-bottom: 1.5rem;">Upload clear PDF or JPG formats. Max size 2MB per file.</p>
@@ -295,26 +290,20 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
             <button type="submit" class="btn btn-primary btn-submit">Submit Application</button>
         </form>
     </div>
 
-    <!-- JavaScript to handle page swapping -->
     <script>
         function switchView(viewName) {
-            // Hide both views first
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
             
-            // Show the requested view
             if (viewName === 'home') {
                 document.getElementById('home-view').classList.remove('hidden');
             } else if (viewName === 'dashboard') {
                 document.getElementById('dashboard-view').classList.remove('hidden');
             }
-
-            // Scroll to the top of the page smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
