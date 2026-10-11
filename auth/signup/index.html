@@ -83,12 +83,15 @@
                 
                 if (error) throw error;
                 
-                successBox.textContent = "Account created! Redirecting...";
+                // UPDATED: Clear form and show the "Login to Continue" message
+                form.reset();
+                successBox.textContent = "Account created! Redirecting to login...";
                 successBox.classList.remove('hidden');
                 
+                // UPDATED: Route to login page instead of application
                 setTimeout(() => {
-                    window.location.href = '/application';
-                }, 800);
+                    window.location.href = '/auth/login';
+                }, 1500);
 
             } catch (error) {
                 errorBox.textContent = error.message;
