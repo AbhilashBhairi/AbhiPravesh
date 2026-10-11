@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - JNTUH Portal</title>
+    <title>Login / Sign Up - JNTUH Portal</title>
     
-    <!-- 1. We import Tailwind for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- 2. We import Supabase directly into the browser -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
@@ -30,38 +27,45 @@
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-primary-100">
 
-    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center px-4">
         <a href="/" class="inline-block cursor-pointer decoration-transparent mb-6">
             <h1 class="text-3xl font-extrabold tracking-tight text-primary-600">Edu<span class="text-primary-800">Portal</span></h1>
         </a>
-        <h2 id="form-title" class="text-3xl font-extrabold text-slate-900">Sign in to your account</h2>
+        
+        <!-- The title that dynamically changes -->
+        <h2 id="form-title" class="text-3xl font-extrabold text-slate-900 transition-all duration-300">Sign in to your account</h2>
+        
         <p class="mt-2 text-sm text-slate-600">
             Or
-            <a href="#" id="toggle-form" class="font-medium text-primary-600 hover:text-primary-500">
+            <a href="#" id="toggle-form" class="font-bold text-primary-600 hover:text-primary-800 underline transition-colors">
                 create a new applicant account
             </a>
         </p>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow-xl border border-slate-200 sm:rounded-2xl sm:px-10">
+    <!-- Mobile Fix: Added px-4 so it doesn't touch the screen edges on phones -->
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+        <!-- Mobile Fix: Used rounded-2xl universally instead of just on desktop -->
+        <div class="bg-white py-8 px-6 shadow-xl border border-slate-200 rounded-2xl sm:px-10 transition-all duration-300" id="form-container">
             
             <div id="auth-error" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-3 rounded text-sm text-red-700 font-medium"></div>
+            <div id="auth-success" class="hidden mb-4 bg-green-50 border-l-4 border-green-500 p-3 rounded text-sm text-green-700 font-medium"></div>
 
             <form id="auth-form" class="space-y-6">
+                <!-- Hidden input to track if we are Logging In or Signing Up -->
                 <input type="hidden" id="form-mode" value="signin">
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
-                    <input id="email" type="email" required class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                    <input id="email" type="email" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
                 </div>
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
-                    <input id="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                    <input id="password" type="password" required minlength="6" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
                 </div>
 
-                <button type="submit" id="submit-btn" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+                <button type="submit" id="submit-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
                     Sign in
                 </button>
             </form>
@@ -70,52 +74,62 @@
 
     <script>
         // ==========================================
-        // 3. INITIALIZE SUPABASE
-        // Replace these with your actual keys!
+        // SUPABASE INITIALIZATION
+        // Fixed URL: Removed the /rest/v1/ at the end!
         // ==========================================
-        const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co/rest/v1/';
+        const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_2cN0q-kdcRRL07k_2gsxwA_-3bAZyQl';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ==========================================
-        // UI LOGIC
+        // DYNAMIC UI LOGIC (Toggle Login/Signup)
         // ==========================================
         const formMode = document.getElementById('form-mode');
         const formTitle = document.getElementById('form-title');
         const submitBtn = document.getElementById('submit-btn');
         const toggleBtn = document.getElementById('toggle-form');
         const errorBox = document.getElementById('auth-error');
+        const successBox = document.getElementById('auth-success');
+        const formContainer = document.getElementById('form-container');
 
-        // Toggle visual state between Login and Signup
         toggleBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            errorBox.classList.add('hidden'); // clear errors on toggle
+            errorBox.classList.add('hidden');
+            successBox.classList.add('hidden');
+            
+            // Add a tiny visual bump so the user feels the change
+            formContainer.style.transform = 'scale(0.98)';
+            setTimeout(() => formContainer.style.transform = 'scale(1)', 150);
             
             if (formMode.value === 'signin') {
                 formMode.value = 'signup';
                 formTitle.textContent = 'Create your account';
-                submitBtn.textContent = 'Sign up';
-                toggleBtn.textContent = 'sign in to existing account';
+                submitBtn.textContent = 'Register New Account';
+                submitBtn.classList.replace('bg-primary-600', 'bg-primary-800');
+                submitBtn.classList.replace('hover:bg-primary-700', 'hover:bg-primary-900');
+                toggleBtn.textContent = 'Already have an account? Sign in';
             } else {
                 formMode.value = 'signin';
                 formTitle.textContent = 'Sign in to your account';
                 submitBtn.textContent = 'Sign in';
-                toggleBtn.textContent = 'create a new applicant account';
+                submitBtn.classList.replace('bg-primary-800', 'bg-primary-600');
+                submitBtn.classList.replace('hover:bg-primary-900', 'hover:bg-primary-700');
+                toggleBtn.textContent = 'Or create a new applicant account';
             }
         });
 
         // ==========================================
-        // AUTHENTICATION LOGIC
+        // DATABASE AUTHENTICATION LOGIC
         // ==========================================
         document.getElementById('auth-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Visual loading state
             const originalBtnText = submitBtn.textContent;
             submitBtn.textContent = 'Processing...';
             submitBtn.disabled = true;
             errorBox.classList.add('hidden');
+            successBox.classList.add('hidden');
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -124,28 +138,35 @@
                 let authResult;
 
                 if (formMode.value === 'signup') {
-                    // REGISTER NEW USER
+                    // RUN SUPABASE REGISTRATION
                     authResult = await supabase.auth.signUp({
                         email: email,
                         password: password
                     });
+                    
+                    if (authResult.error) throw authResult.error;
+                    
+                    // Show success, then redirect
+                    successBox.textContent = "Account created successfully! Logging you in...";
+                    successBox.classList.remove('hidden');
+                    
                 } else {
-                    // LOGIN EXISTING USER
+                    // RUN SUPABASE LOGIN
                     authResult = await supabase.auth.signInWithPassword({
                         email: email,
                         password: password
                     });
+                    
+                    if (authResult.error) throw authResult.error;
                 }
 
-                if (authResult.error) {
-                    throw authResult.error;
-                }
-
-                // If successful, route them to the application form!
-                window.location.href = '/application';
+                // If no errors occurred, route them to the application form!
+                setTimeout(() => {
+                    window.location.href = '/application';
+                }, 800); // Slight delay so they can read the success message
 
             } catch (error) {
-                // Show error message (e.g., "Invalid login credentials")
+                // Show red error message from Supabase
                 errorBox.textContent = error.message;
                 errorBox.classList.remove('hidden');
                 submitBtn.textContent = originalBtnText;
