@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - JNTUH Portal</title>
+    
+    <!-- 1. We import Tailwind for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 2. We import Supabase directly into the browser -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
         tailwind.config = {
@@ -41,54 +46,110 @@
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow-xl border border-slate-200 sm:rounded-2xl sm:px-10">
             
-            <div id="auth-error" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-3 rounded text-sm text-red-700"></div>
+            <div id="auth-error" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-3 rounded text-sm text-red-700 font-medium"></div>
 
-            <form id="auth-form" class="space-y-6" onsubmit="event.preventDefault(); alert('We will wire this up to Supabase next!'); window.location.href = '/application';">
-                
+            <form id="auth-form" class="space-y-6">
                 <input type="hidden" id="form-mode" value="signin">
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
-                    <div class="mt-1">
-                        <input id="email" name="email" type="email" required class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
-                    </div>
+                    <input id="email" type="email" required class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                 </div>
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
-                    <div class="mt-1">
-                        <input id="password" name="password" type="password" required class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
-                    </div>
+                    <input id="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                 </div>
 
-                <div>
-                    <button type="submit" id="submit-btn" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
-                        Sign in
-                    </button>
-                </div>
+                <button type="submit" id="submit-btn" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+                    Sign in
+                </button>
             </form>
         </div>
     </div>
 
     <script>
-        const toggleFormBtn = document.getElementById('toggle-form');
+        // ==========================================
+        // 3. INITIALIZE SUPABASE
+        // Replace these with your actual keys!
+        // ==========================================
+        const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co/rest/v1/';
+        const SUPABASE_ANON_KEY = 'sb_publishable_2cN0q-kdcRRL07k_2gsxwA_-3bAZyQl';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ==========================================
+        // UI LOGIC
+        // ==========================================
+        const formMode = document.getElementById('form-mode');
         const formTitle = document.getElementById('form-title');
         const submitBtn = document.getElementById('submit-btn');
-        const formMode = document.getElementById('form-mode');
+        const toggleBtn = document.getElementById('toggle-form');
+        const errorBox = document.getElementById('auth-error');
 
-        // Toggle between Sign In and Sign Up visually
-        toggleFormBtn.addEventListener('click', (e) => {
+        // Toggle visual state between Login and Signup
+        toggleBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            errorBox.classList.add('hidden'); // clear errors on toggle
+            
             if (formMode.value === 'signin') {
                 formMode.value = 'signup';
                 formTitle.textContent = 'Create your account';
                 submitBtn.textContent = 'Sign up';
-                toggleFormBtn.textContent = 'sign in to existing account';
+                toggleBtn.textContent = 'sign in to existing account';
             } else {
                 formMode.value = 'signin';
                 formTitle.textContent = 'Sign in to your account';
                 submitBtn.textContent = 'Sign in';
-                toggleFormBtn.textContent = 'create a new applicant account';
+                toggleBtn.textContent = 'create a new applicant account';
+            }
+        });
+
+        // ==========================================
+        // AUTHENTICATION LOGIC
+        // ==========================================
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Visual loading state
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+            errorBox.classList.add('hidden');
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                let authResult;
+
+                if (formMode.value === 'signup') {
+                    // REGISTER NEW USER
+                    authResult = await supabase.auth.signUp({
+                        email: email,
+                        password: password
+                    });
+                } else {
+                    // LOGIN EXISTING USER
+                    authResult = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+                }
+
+                if (authResult.error) {
+                    throw authResult.error;
+                }
+
+                // If successful, route them to the application form!
+                window.location.href = '/application';
+
+            } catch (error) {
+                // Show error message (e.g., "Invalid login credentials")
+                errorBox.textContent = error.message;
+                errorBox.classList.remove('hidden');
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
             }
         });
     </script>
