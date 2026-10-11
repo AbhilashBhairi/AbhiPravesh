@@ -3,24 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Sign Up - JNTUH Portal</title>
-    
+    <title>Login - JNTUH Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <script>
         tailwind.config = {
             theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        primary: {
-                            50: '#f4f5f0', 100: '#e9ebe0', 300: '#c2c5aa', 
-                            600: '#656d4a', 700: '#414833', 800: '#333d29'
-                        }
-                    }
-                }
+                extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { primary: { 50: '#f4f5f0', 100: '#e9ebe0', 300: '#c2c5aa', 600: '#656d4a', 700: '#414833', 800: '#333d29' } } }
             }
         }
     </script>
@@ -31,30 +21,22 @@
         <a href="/" class="inline-block cursor-pointer decoration-transparent mb-6">
             <h1 class="text-3xl font-extrabold tracking-tight text-primary-600">Edu<span class="text-primary-800">Portal</span></h1>
         </a>
-        
-        <!-- The title that dynamically changes -->
-        <h2 id="form-title" class="text-3xl font-extrabold text-slate-900 transition-all duration-300">Sign in to your account</h2>
-        
+        <h2 class="text-3xl font-extrabold text-slate-900">Sign in to your account</h2>
         <p class="mt-2 text-sm text-slate-600">
             Or
-            <a href="#" id="toggle-form" class="font-bold text-primary-600 hover:text-primary-800 underline transition-colors">
+            <!-- HARD LINK TO NEW SIGNUP PAGE -->
+            <a href="/signup" class="font-bold text-primary-600 hover:text-primary-800 underline transition-colors">
                 create a new applicant account
             </a>
         </p>
     </div>
 
-    <!-- Mobile Fix: Added px-4 so it doesn't touch the screen edges on phones -->
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <!-- Mobile Fix: Used rounded-2xl universally instead of just on desktop -->
-        <div class="bg-white py-8 px-6 shadow-xl border border-slate-200 rounded-2xl sm:px-10 transition-all duration-300" id="form-container">
+        <div class="bg-white py-8 px-6 shadow-xl border border-slate-200 rounded-2xl sm:px-10">
             
             <div id="auth-error" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-3 rounded text-sm text-red-700 font-medium"></div>
-            <div id="auth-success" class="hidden mb-4 bg-green-50 border-l-4 border-green-500 p-3 rounded text-sm text-green-700 font-medium"></div>
 
-            <form id="auth-form" class="space-y-6">
-                <!-- Hidden input to track if we are Logging In or Signing Up -->
-                <input type="hidden" id="form-mode" value="signin">
-
+            <form id="login-form" class="space-y-6">
                 <div>
                     <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
                     <input id="email" type="email" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
@@ -62,7 +44,7 @@
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
-                    <input id="password" type="password" required minlength="6" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                    <input id="password" type="password" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
                 </div>
 
                 <button type="submit" id="submit-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
@@ -73,103 +55,36 @@
     </div>
 
     <script>
-        // ==========================================
-        // SUPABASE INITIALIZATION
-        // Fixed URL: Removed the /rest/v1/ at the end!
-        // ==========================================
         const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_2cN0q-kdcRRL07k_2gsxwA_-3bAZyQl';
-        
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ==========================================
-        // DYNAMIC UI LOGIC (Toggle Login/Signup)
-        // ==========================================
-        const formMode = document.getElementById('form-mode');
-        const formTitle = document.getElementById('form-title');
         const submitBtn = document.getElementById('submit-btn');
-        const toggleBtn = document.getElementById('toggle-form');
         const errorBox = document.getElementById('auth-error');
-        const successBox = document.getElementById('auth-success');
-        const formContainer = document.getElementById('form-container');
 
-        toggleBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            errorBox.classList.add('hidden');
-            successBox.classList.add('hidden');
-            
-            // Add a tiny visual bump so the user feels the change
-            formContainer.style.transform = 'scale(0.98)';
-            setTimeout(() => formContainer.style.transform = 'scale(1)', 150);
-            
-            if (formMode.value === 'signin') {
-                formMode.value = 'signup';
-                formTitle.textContent = 'Create your account';
-                submitBtn.textContent = 'Register New Account';
-                submitBtn.classList.replace('bg-primary-600', 'bg-primary-800');
-                submitBtn.classList.replace('hover:bg-primary-700', 'hover:bg-primary-900');
-                toggleBtn.textContent = 'Already have an account? Sign in';
-            } else {
-                formMode.value = 'signin';
-                formTitle.textContent = 'Sign in to your account';
-                submitBtn.textContent = 'Sign in';
-                submitBtn.classList.replace('bg-primary-800', 'bg-primary-600');
-                submitBtn.classList.replace('hover:bg-primary-900', 'hover:bg-primary-700');
-                toggleBtn.textContent = 'Or create a new applicant account';
-            }
-        });
-
-        // ==========================================
-        // DATABASE AUTHENTICATION LOGIC
-        // ==========================================
-        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const originalBtnText = submitBtn.textContent;
             submitBtn.textContent = 'Processing...';
             submitBtn.disabled = true;
             errorBox.classList.add('hidden');
-            successBox.classList.add('hidden');
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
             try {
-                let authResult;
-
-                if (formMode.value === 'signup') {
-                    // RUN SUPABASE REGISTRATION
-                    authResult = await supabase.auth.signUp({
-                        email: email,
-                        password: password
-                    });
-                    
-                    if (authResult.error) throw authResult.error;
-                    
-                    // Show success, then redirect
-                    successBox.textContent = "Account created successfully! Logging you in...";
-                    successBox.classList.remove('hidden');
-                    
-                } else {
-                    // RUN SUPABASE LOGIN
-                    authResult = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-                    
-                    if (authResult.error) throw authResult.error;
-                }
-
-                // If no errors occurred, route them to the application form!
-                setTimeout(() => {
-                    window.location.href = '/application';
-                }, 800); // Slight delay so they can read the success message
+                const { error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) throw error;
+                window.location.href = '/application';
 
             } catch (error) {
-                // Show red error message from Supabase
                 errorBox.textContent = error.message;
                 errorBox.classList.remove('hidden');
-                submitBtn.textContent = originalBtnText;
+                submitBtn.textContent = 'Sign in';
                 submitBtn.disabled = false;
             }
         });
