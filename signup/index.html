@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - JNTUH Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { primary: { 50: '#f4f5f0', 100: '#e9ebe0', 300: '#c2c5aa', 600: '#656d4a', 700: '#414833', 800: '#333d29' } } }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-primary-100">
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center px-4">
+        <a href="/" class="inline-block cursor-pointer decoration-transparent mb-6">
+            <h1 class="text-3xl font-extrabold tracking-tight text-primary-600">Edu<span class="text-primary-800">Portal</span></h1>
+        </a>
+        <h2 class="text-3xl font-extrabold text-slate-900">Create your account</h2>
+        <p class="mt-2 text-sm text-slate-600">
+            Already registered?
+            <!-- HARD LINK TO NEW LOGIN PAGE -->
+            <a href="/login" class="font-bold text-primary-600 hover:text-primary-800 underline transition-colors">
+                Sign in here
+            </a>
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+        <div class="bg-white py-8 px-6 shadow-xl border border-slate-200 rounded-2xl sm:px-10">
+            
+            <div id="auth-error" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-3 rounded text-sm text-red-700 font-medium"></div>
+            <div id="auth-success" class="hidden mb-4 bg-green-50 border-l-4 border-green-500 p-3 rounded text-sm text-green-700 font-medium"></div>
+
+            <form id="signup-form" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
+                    <input id="email" type="email" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-slate-700">Create Password (Min 6 chars)</label>
+                    <input id="password" type="password" required minlength="6" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                </div>
+
+                <button type="submit" id="submit-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-primary-800 hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
+                    Register Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_2cN0q-kdcRRL07k_2gsxwA_-3bAZyQl';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const submitBtn = document.getElementById('submit-btn');
+        const errorBox = document.getElementById('auth-error');
+        const successBox = document.getElementById('auth-success');
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+            errorBox.classList.add('hidden');
+            successBox.classList.add('hidden');
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const { error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) throw error;
+                
+                successBox.textContent = "Account created successfully! Logging you in...";
+                successBox.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    window.location.href = '/application';
+                }, 800);
+
+            } catch (error) {
+                errorBox.textContent = error.message;
+                errorBox.classList.remove('hidden');
+                submitBtn.textContent = 'Register Account';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
