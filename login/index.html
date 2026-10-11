@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - JNTUH Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: {
+                            50: '#f4f5f0', 100: '#e9ebe0', 300: '#c2c5aa', 
+                            600: '#656d4a', 700: '#414833', 800: '#333d29'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 selection:bg-primary-100">
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <a href="/" class="inline-block cursor-pointer decoration-transparent mb-6">
+            <h1 class="text-3xl font-extrabold tracking-tight text-primary-600">Edu<span class="text-primary-800">Portal</span></h1>
+        </a>
+        <h2 id="form-title" class="text-3xl font-extrabold text-slate-900">Sign in to your account</h2>
+        <p class="mt-2 text-sm text-slate-600">
+            Or
+            <a href="#" id="toggle-form" class="font-medium text-primary-600 hover:text-primary-500">
+                create a new applicant account
+            </a>
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-xl border border-slate-200 sm:rounded-2xl sm:px-10">
+            
+            <div id="auth-error" class="hidden mb-4 bg-red-50 border-l-4 border-red-500 p-3 rounded text-sm text-red-700"></div>
+
+            <form id="auth-form" class="space-y-6" onsubmit="event.preventDefault(); alert('We will wire this up to Supabase next!'); window.location.href = '/application';">
+                
+                <input type="hidden" id="form-mode" value="signin">
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
+                    <div class="mt-1">
+                        <input id="email" name="email" type="email" required class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+                    <div class="mt-1">
+                        <input id="password" name="password" type="password" required class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" id="submit-btn" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const toggleFormBtn = document.getElementById('toggle-form');
+        const formTitle = document.getElementById('form-title');
+        const submitBtn = document.getElementById('submit-btn');
+        const formMode = document.getElementById('form-mode');
+
+        // Toggle between Sign In and Sign Up visually
+        toggleFormBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (formMode.value === 'signin') {
+                formMode.value = 'signup';
+                formTitle.textContent = 'Create your account';
+                submitBtn.textContent = 'Sign up';
+                toggleFormBtn.textContent = 'sign in to existing account';
+            } else {
+                formMode.value = 'signin';
+                formTitle.textContent = 'Sign in to your account';
+                submitBtn.textContent = 'Sign in';
+                toggleFormBtn.textContent = 'create a new applicant account';
+            }
+        });
+    </script>
+</body>
+</html>
