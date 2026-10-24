@@ -11,8 +11,39 @@
         nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(194, 197, 170, 0.5); padding: 1rem 5%; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; color: #656d4a; text-decoration: none; }
         .logo span { color: #333d29; }
-        .nav-links { display: none; } 
-        .mobile-menu-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333d29; }
+        
+        .mobile-menu-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333d29; transition: transform 0.2s; }
+        
+        /* Mobile Menu Styles */
+        .nav-links { 
+            display: flex; 
+            flex-direction: column; 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            width: 100%; 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(12px); 
+            border-bottom: 1px solid rgba(194, 197, 170, 0.5); 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease, padding 0.3s ease; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links.active { 
+            max-height: 250px; 
+            padding: 1rem 5%; 
+        }
+        .nav-links a { 
+            color: #414833; 
+            text-decoration: none; 
+            font-weight: 600; 
+            padding: 1rem 0; 
+            border-bottom: 1px solid rgba(194, 197, 170, 0.2);
+            transition: color 0.2s;
+        }
+        .nav-links a:last-child { border-bottom: none; }
+        .nav-links a:hover { color: #7f4f24; }
 
         .hero { padding: 10rem 5% 5rem; text-align: center; background: linear-gradient(180deg, rgba(248, 250, 252, 0) 0%, rgba(248, 250, 252, 0) 75%, rgba(248, 250, 252, 1) 100%), url('https://raw.githubusercontent.com/AbhilashBhairi/AbhiPravesh/main/MTECPDPL.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; }
         .hero-content { max-width: 1020px; margin: 0 auto; background: rgba(248, 250, 252, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 3.5rem 2rem; border-radius: 24px; border: 1px solid rgba(194, 197, 170, 0.6); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
@@ -32,11 +63,23 @@
         .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: #333d29; }
         .card p { color: #582f0e; font-size: 0.95rem; }
 
+        /* Desktop Overrides */
         @media (min-width: 768px) {
             .mobile-menu-btn { display: none; }
-            .nav-links { display: flex; gap: 2rem; align-items: center; }
-            .nav-links a { color: #414833; text-decoration: none; font-weight: 500; transition: color 0.2s; cursor: pointer;}
-            .nav-links a:hover { color: #7f4f24; }
+            .nav-links { 
+                display: flex; 
+                flex-direction: row; 
+                position: static; 
+                width: auto; 
+                background: transparent; 
+                border: none; 
+                max-height: none; 
+                padding: 0; 
+                box-shadow: none; 
+                gap: 2rem; 
+                align-items: center; 
+            }
+            .nav-links a { padding: 0; border: none; font-weight: 500; }
             .features-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
@@ -44,9 +87,9 @@
 <body>
     <nav>
         <a href="/" class="logo">Edu<span>Portal</span></a>
-        <button class="mobile-menu-btn">☰</button>
-        <div class="nav-links">
-            <a href="/application">Student Login</a>
+        <button class="mobile-menu-btn" id="mobile-toggle">☰</button>
+        <div class="nav-links" id="nav-menu">
+            <a href="/auth/login">Student Login</a>
             <a href="/staff">College Admin</a>
         </div>
     </nav>
@@ -56,7 +99,6 @@
             <h1>Seamless Admissions for your <br><span class="gradient-text">B.Tech Future</span></h1>
             <p>Skip the confusing paperwork. Apply for Category A & B seats, upload your ePASS documents, and track your admission status—all from your phone.</p>
             <div>
-                <!-- Notice this is now an actual link to the new page -->
                 <a href="/auth/login" class="btn btn-primary">Start Application</a>
             </div>
         </div>
@@ -81,5 +123,21 @@
             </div>
         </div>
     </section>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        const mobileBtn = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            // Swap hamburger icon to X when opened
+            if (navMenu.classList.contains('active')) {
+                mobileBtn.innerHTML = '✕';
+            } else {
+                mobileBtn.innerHTML = '☰';
+            }
+        });
+    </script>
 </body>
 </html>
