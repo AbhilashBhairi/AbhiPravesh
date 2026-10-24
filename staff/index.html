@@ -10,11 +10,8 @@
         tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { primary: { 50: '#f4f5f0', 100: '#e9ebe0', 200: '#d2d6c1', 300: '#c2c5aa', 400: '#a4ac86', 500: '#848d61', 600: '#656d4a', 700: '#414833', 800: '#333d29', 900: '#22291b' } } } } }
     </script>
     <style>
-        /* Hide scrollbar for a cleaner drawer look */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Input styling for disabled read-mode vs active edit-mode */
         .data-input:disabled { background-color: transparent; border-color: transparent; color: #1e293b; cursor: default; -webkit-text-fill-color: #1e293b; opacity: 1; padding-left: 0; padding-right: 0;}
         .data-input:not(:disabled) { background-color: #f8fafc; border-color: #cbd5e1; color: #0f172a; padding-left: 0.75rem; padding-right: 0.75rem;}
     </style>
@@ -34,11 +31,11 @@
                 <form id="admin-login-form" class="space-y-6">
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Staff Email</label>
-                        <input id="admin-input-email" type="email" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 sm:text-sm">
+                        <input id="admin-input-email" type="email" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 sm:text-sm transition-colors">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Password</label>
-                        <input id="admin-input-password" type="password" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 sm:text-sm">
+                        <input id="admin-input-password" type="password" required class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 sm:text-sm transition-colors">
                     </div>
                     <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-primary-800 hover:bg-primary-900 transition-all">
                         Access Dashboard
@@ -57,37 +54,37 @@
                         <h1 class="text-xl font-extrabold tracking-tight">EduPortal <span class="font-medium text-primary-300">| Staff</span></h1>
                     </div>
                     <div class="flex items-center gap-4">
-                        <span id="admin-email-display" class="text-sm font-medium text-primary-200"></span>
+                        <span id="admin-email-display" class="hidden sm:block text-sm font-medium text-primary-200"></span>
                         <button onclick="location.reload()" class="text-sm font-bold text-red-400 hover:text-red-300 transition-colors">Logout</button>
                     </div>
                 </div>
             </div>
         </header>
 
-        <main class="flex-grow w-full max-w-[90rem] mx-auto px-4 py-8">
-            <div class="flex justify-between items-end mb-6">
+        <main class="flex-grow w-full max-w-[90rem] mx-auto px-4 py-6 sm:py-8">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900">Application Pipeline</h2>
                     <p class="text-sm text-slate-500 mt-1">Review, edit, and manage incoming applications.</p>
                 </div>
-                <button onclick="fetchApplications()" class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold hover:bg-slate-50 shadow-sm transition-all flex items-center">
+                <button onclick="fetchApplications()" class="w-full sm:w-auto px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold hover:bg-slate-50 shadow-sm transition-all flex justify-center items-center">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    Refresh
+                    Refresh Data
                 </button>
             </div>
 
-            <!-- Data Table -->
+            <!-- Mobile-Optimized Data Table -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <div class="overflow-x-auto no-scrollbar">
+                    <table class="w-full text-left border-collapse whitespace-nowrap">
                         <thead>
                             <tr class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
-                                <th class="px-6 py-4 font-bold">Applicant Name</th>
-                                <th class="px-6 py-4 font-bold">Hall Ticket</th>
-                                <th class="px-6 py-4 font-bold">EAMCET Rank</th>
-                                <th class="px-6 py-4 font-bold">Quota / Category</th>
-                                <th class="px-6 py-4 font-bold">Status</th>
-                                <th class="px-6 py-4 font-bold text-right">Action</th>
+                                <th class="px-4 sm:px-6 py-4 font-bold">Applicant Name</th>
+                                <th class="px-4 sm:px-6 py-4 font-bold">Hall Ticket</th>
+                                <th class="px-4 sm:px-6 py-4 font-bold">EAMCET Rank</th>
+                                <th class="px-4 sm:px-6 py-4 font-bold">Quota / Category</th>
+                                <th class="px-4 sm:px-6 py-4 font-bold">Status</th>
+                                <th class="px-4 sm:px-6 py-4 font-bold text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody id="table-body" class="divide-y divide-slate-200 text-sm">
@@ -99,103 +96,96 @@
         </main>
     </div>
 
-    <!-- ==================== SLIDE-OVER DRAWER (VIEW/EDIT/REJECT) ==================== -->
-    <!-- Dark Backdrop -->
+    <!-- ==================== MOBILE-FIRST SLIDE-OVER DRAWER ==================== -->
     <div id="drawer-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden transition-opacity opacity-0" onclick="closeDrawer()"></div>
     
-    <!-- Drawer Panel -->
-    <div id="slide-drawer" class="fixed inset-y-0 right-0 w-full max-w-2xl bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+    <div id="slide-drawer" class="fixed inset-y-0 right-0 w-full sm:max-w-2xl bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
         
-        <!-- Header -->
-        <div class="px-8 py-6 border-b border-slate-200 bg-slate-50 flex justify-between items-start">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 border-b border-slate-200 bg-slate-50 flex justify-between items-start">
             <div>
-                <div class="flex items-center gap-3 mb-1">
-                    <h3 class="text-2xl font-extrabold text-slate-900">Application File</h3>
-                    <span id="badge-status" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Status</span>
+                <div class="flex items-center gap-2 sm:gap-3 mb-1">
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">Application</h3>
+                    <span id="badge-status" class="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide">Status</span>
                 </div>
-                <p class="text-sm text-slate-500 font-mono">ID: <span id="m-id"></span></p>
+                <p class="text-xs sm:text-sm text-slate-500 font-mono hidden sm:block">ID: <span id="m-id"></span></p>
             </div>
-            <div class="flex items-center gap-4">
-                <button id="btn-toggle-edit" onclick="toggleEditMode()" class="px-4 py-2 border border-slate-300 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-100 transition-colors flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    Edit Details
+            <div class="flex items-center gap-2 sm:gap-4 mt-1 sm:mt-0">
+                <button id="btn-toggle-edit" onclick="toggleEditMode()" class="px-3 sm:px-4 py-2 border border-slate-300 rounded-lg text-xs sm:text-sm font-bold text-slate-700 hover:bg-slate-100 transition-colors flex items-center">
+                    <svg class="w-4 h-4 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <span class="hidden sm:inline">Edit Details</span>
                 </button>
-                <button onclick="closeDrawer()" class="text-slate-400 hover:text-slate-700 bg-white rounded-full p-1 border border-slate-200 shadow-sm transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <button onclick="closeDrawer()" class="text-slate-400 hover:text-slate-700 bg-white rounded-full p-1.5 border border-slate-200 shadow-sm transition-colors">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
         </div>
         
-        <!-- Scrollable Body with Inputs -->
-        <div class="flex-grow px-8 py-6 overflow-y-auto no-scrollbar bg-white">
+        <div class="flex-grow px-5 sm:px-8 py-6 overflow-y-auto no-scrollbar bg-white">
             <form id="edit-form" class="space-y-8">
                 
-                <!-- Section 1: Personal -->
                 <div>
                     <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-4 border-b border-slate-100 pb-2">1. Personal Information</h4>
-                    <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Full Name</label>
-                            <input id="m-name" type="text" disabled class="data-input w-full text-sm font-semibold border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none transition-all">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Full Name</label>
+                            <input id="m-name" type="text" disabled class="data-input w-full text-sm font-semibold border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Email</label>
-                            <input id="m-email" type="email" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none transition-all">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Email</label>
+                            <input id="m-email" type="email" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Phone</label>
-                            <input id="m-phone" type="text" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none transition-all">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Phone</label>
+                            <input id="m-phone" type="text" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Date of Birth</label>
-                            <input id="m-dob" type="date" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none transition-all">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Date of Birth</label>
+                            <input id="m-dob" type="date" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 2: Academics -->
                 <div>
                     <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-4 border-b border-slate-100 pb-2">2. Academic Records</h4>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Hall Ticket</label>
+                        <div class="col-span-2">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Hall Ticket</label>
                             <input id="m-ht" type="text" disabled class="data-input w-full font-mono text-sm font-bold border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">EAMCET Rank</label>
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">EAMCET Rank</label>
                             <input id="m-rank" type="number" disabled class="data-input w-full text-sm font-bold text-primary-700 border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Inter %</label>
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Inter %</label>
                             <input id="m-inter" type="number" step="0.01" disabled class="data-input w-full text-sm font-bold border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Category</label>
+                        <div class="col-span-2">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Category</label>
                             <select id="m-category" disabled class="data-input w-full text-sm font-bold border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none appearance-none">
-                                <option value="OC">OC (Open Category)</option> <option value="BCA">BC-A</option>
+                                <option value="OC">OC</option> <option value="BCA">BC-A</option>
                                 <option value="BCB">BC-B</option> <option value="SC">SC</option>
                                 <option value="ST">ST</option> <option value="EWS">EWS</option>
                             </select>
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Board</label>
+                        <div class="col-span-2">
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Board</label>
                             <input id="m-board" type="text" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 3: Branch & Quota -->
                 <div>
                     <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-4 border-b border-slate-100 pb-2">3. Branch Preferences</h4>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Admission Quota</label>
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Admission Quota</label>
                             <select id="m-quota" disabled class="data-input w-full text-sm font-bold border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none appearance-none">
                                 <option value="Category-A">Category-A (Convenor - 70%)</option>
                                 <option value="Category-B">Category-B (Management - 30%)</option>
                             </select>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                             <div class="p-3 bg-primary-50/50 border border-primary-100 rounded-lg">
                                 <label class="block text-[10px] font-bold text-primary-600 uppercase mb-1">1st Preference</label>
                                 <input id="m-pref1" type="text" disabled class="data-input w-full text-sm font-bold border rounded py-1 focus:ring-1 focus:ring-primary-500 outline-none">
@@ -214,23 +204,21 @@
             </form>
         </div>
 
-        <!-- Sticky Footer Action Bar -->
-        <div class="px-8 py-5 border-t border-slate-200 bg-slate-50 flex justify-between items-center">
+        <!-- Mobile-Optimized Footer Action Bar -->
+        <div class="px-5 sm:px-8 py-4 sm:py-5 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-center gap-3">
             
-            <!-- Read Mode Controls (Approve/Reject) -->
-            <div id="action-controls-read" class="flex gap-3 w-full justify-between">
-                <button onclick="updateStatus('Rejected')" class="px-6 py-2.5 bg-red-100 text-red-700 font-bold rounded-xl hover:bg-red-200 transition-colors flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg> Reject Application
+            <div id="action-controls-read" class="flex flex-col sm:flex-row gap-3 w-full sm:justify-between">
+                <button onclick="updateStatus('Rejected')" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-red-100 text-red-700 font-bold rounded-xl hover:bg-red-200 transition-colors flex justify-center items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg> Reject
                 </button>
-                <button onclick="updateStatus('Approved')" class="px-8 py-2.5 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 shadow-md transition-colors flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Approve Admission
+                <button onclick="updateStatus('Approved')" class="w-full sm:w-auto px-8 py-3 sm:py-2.5 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 shadow-md transition-colors flex justify-center items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Approve
                 </button>
             </div>
 
-            <!-- Edit Mode Controls (Save/Cancel) -->
-            <div id="action-controls-edit" class="hidden flex gap-3 w-full justify-end">
-                <button onclick="toggleEditMode()" class="px-6 py-2.5 border-2 border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-100 transition-colors">Cancel</button>
-                <button onclick="saveStudentDetails()" class="px-8 py-2.5 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 shadow-md transition-colors">Save Changes</button>
+            <div id="action-controls-edit" class="hidden flex flex-col sm:flex-row gap-3 w-full sm:justify-end">
+                <button onclick="toggleEditMode()" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 border-2 border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-100 transition-colors">Cancel</button>
+                <button onclick="saveStudentDetails()" class="w-full sm:w-auto px-8 py-3 sm:py-2.5 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 shadow-md transition-colors">Save Changes</button>
             </div>
         </div>
     </div>
@@ -252,7 +240,6 @@
         let currentEditingId = null;
         let isEditing = false;
 
-        // Login
         document.getElementById('admin-login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const inputEmail = document.getElementById('admin-input-email').value;
@@ -268,7 +255,6 @@
             }
         });
 
-        // Fetch & Render Table
         window.fetchApplications = async function() {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-slate-500"><div class="inline-block animate-spin w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full mr-2"></div> Fetching data...</td></tr>`;
@@ -278,7 +264,6 @@
             
             applicationsData = data;
             tbody.innerHTML = '';
-            
             if (data.length === 0) return tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No applications found.</td></tr>`;
 
             data.forEach(app => {
@@ -290,15 +275,15 @@
                 tr.onclick = () => openDrawer(app.id);
 
                 tr.innerHTML = `
-                    <td class="px-6 py-4 font-bold text-slate-900">${app.full_name || '<span class="text-slate-400 font-normal italic">Draft</span>'}</td>
-                    <td class="px-6 py-4 text-slate-600 font-mono">${app.hall_ticket || '-'}</td>
-                    <td class="px-6 py-4 font-bold text-primary-700">${app.eamcet_rank || '-'}</td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 sm:px-6 py-4 font-bold text-slate-900">${app.full_name || '<span class="text-slate-400 font-normal italic">Draft</span>'}</td>
+                    <td class="px-4 sm:px-6 py-4 text-slate-600 font-mono">${app.hall_ticket || '-'}</td>
+                    <td class="px-4 sm:px-6 py-4 font-bold text-primary-700">${app.eamcet_rank || '-'}</td>
+                    <td class="px-4 sm:px-6 py-4">
                         <div class="text-xs font-bold text-slate-800">${app.quota || '-'}</div>
                         <div class="text-xs text-slate-500">${app.category || '-'}</div>
                     </td>
-                    <td class="px-6 py-4"><span class="px-3 py-1 ${statColor} text-xs font-bold rounded-full">${stat}</span></td>
-                    <td class="px-6 py-4 text-right">
+                    <td class="px-4 sm:px-6 py-4"><span class="px-3 py-1 ${statColor} text-xs font-bold rounded-full">${stat}</span></td>
+                    <td class="px-4 sm:px-6 py-4 text-right">
                         <button class="text-primary-600 group-hover:text-primary-800 font-semibold text-sm">Review &rarr;</button>
                     </td>
                 `;
@@ -306,14 +291,12 @@
             });
         };
 
-        // UI: Status Badge Color
         function updateBadgeUI(status) {
             const badge = document.getElementById('badge-status');
             badge.textContent = status;
-            badge.className = `px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${status === 'Approved' ? 'bg-green-100 text-green-800 border border-green-200' : status === 'Rejected' ? 'bg-red-100 text-red-800 border border-red-200' : 'bg-amber-100 text-amber-800 border border-amber-200'}`;
+            badge.className = `px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide ${status === 'Approved' ? 'bg-green-100 text-green-800 border border-green-200' : status === 'Rejected' ? 'bg-red-100 text-red-800 border border-red-200' : 'bg-amber-100 text-amber-800 border border-amber-200'}`;
         }
 
-        // Drawer Logic
         window.openDrawer = function(id) {
             const app = applicationsData.find(a => a.id === id);
             if (!app) return;
@@ -321,7 +304,6 @@
             isEditing = false;
             syncInputsState();
 
-            // Populate Form
             document.getElementById('m-id').textContent = app.id;
             updateBadgeUI(app.status || 'Under Review');
             
@@ -339,7 +321,6 @@
             document.getElementById('m-pref2').value = app.pref2 || '';
             document.getElementById('m-pref3').value = app.pref3 || '';
 
-            // Animate Drawer In
             document.getElementById('drawer-backdrop').classList.remove('hidden');
             setTimeout(() => {
                 document.getElementById('drawer-backdrop').classList.remove('opacity-0');
@@ -353,7 +334,6 @@
             setTimeout(() => document.getElementById('drawer-backdrop').classList.add('hidden'), 300);
         };
 
-        // Edit Mode Toggle
         window.toggleEditMode = function() {
             isEditing = !isEditing;
             syncInputsState();
@@ -371,14 +351,15 @@
                 btnToggle.classList.add('hidden');
                 controlsRead.classList.add('hidden');
                 controlsEdit.classList.remove('hidden');
+                controlsEdit.classList.add('flex');
             } else {
                 btnToggle.classList.remove('hidden');
                 controlsRead.classList.remove('hidden');
+                controlsRead.classList.add('flex');
                 controlsEdit.classList.add('hidden');
             }
         }
 
-        // Save Edits to Supabase
         window.saveStudentDetails = async function() {
             const payload = {
                 full_name: document.getElementById('m-name').value,
@@ -401,19 +382,17 @@
             if (!error) {
                 isEditing = false;
                 syncInputsState();
-                fetchApplications(); // refresh background table
+                fetchApplications();
             } else {
                 alert("Failed to save changes: " + error.message);
             }
         };
 
-        // Approve / Reject Logic
         window.updateStatus = async function(newStatus) {
             const { error } = await supabase.from('applications').update({ status: newStatus }).eq('id', currentEditingId);
-            
             if (!error) {
                 updateBadgeUI(newStatus);
-                fetchApplications(); // refresh background table
+                fetchApplications();
             } else {
                 alert("Failed to update status: " + error.message);
             }
