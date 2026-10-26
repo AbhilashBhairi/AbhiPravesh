@@ -123,6 +123,11 @@
                         </div>
 
                         <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Aadhar Number <span class="text-red-500">*</span></label>
+                            <input type="text" id="aadhar" required pattern="[0-9]{12}" title="Please enter a valid 12-digit Aadhar number" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
+                        </div>
+
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-slate-700 mb-1">Social Category <span class="text-red-500">*</span></label>
                             <select id="category" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
                                 <option value="" disabled selected>Select Category...</option>
@@ -173,9 +178,15 @@
                 <!-- STEP 3: Documents -->
                 <div id="step-3" class="step-pane">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Document Uploads</h2>
-                    <p class="text-slate-500 mb-8 text-sm">Upload clear scanned copies. Max size: 2MB per file (PDF/JPG/PNG).</p>
+                    <p class="text-slate-500 mb-8 text-sm">Upload clear scanned copies of your official documents.</p>
                     
                     <div class="space-y-5">
+                        <div class="p-5 rounded-2xl border border-slate-200 bg-white hover:border-primary-300 transition-colors">
+                            <label class="block text-sm font-bold text-slate-800 mb-1">Passport Size Photo (Max 100KB) <span class="text-red-500">*</span></label>
+                            <p class="text-xs text-slate-500 mb-2">Upload a clear photo. Only images (.jpg, .png) are allowed.</p>
+                            <input type="file" id="docPhoto" accept="image/*" required class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer border border-dashed border-slate-300 rounded-xl p-2 bg-slate-50">
+                        </div>
+
                         <div class="p-5 rounded-2xl border border-slate-200 bg-white hover:border-primary-300 transition-colors">
                             <label class="block text-sm font-bold text-slate-800 mb-1">SSC Memo <span class="text-red-500">*</span></label>
                             <input type="file" id="docSSC" accept=".pdf,image/*" required class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer border border-dashed border-slate-300 rounded-xl p-2 bg-slate-50">
@@ -257,6 +268,7 @@
                                 <div><span class="text-slate-500 block text-xs">Name</span> <span id="rev-name" class="font-semibold text-slate-800"></span></div>
                                 <div><span class="text-slate-500 block text-xs">Email</span> <span id="rev-email" class="font-semibold text-slate-800"></span></div>
                                 <div><span class="text-slate-500 block text-xs">Phone</span> <span id="rev-phone" class="font-semibold text-slate-800"></span></div>
+                                <div><span class="text-slate-500 block text-xs">Aadhar</span> <span id="rev-aadhar" class="font-semibold text-slate-800"></span></div>
                                 <div><span class="text-slate-500 block text-xs">Category</span> <span id="rev-category" class="font-semibold text-slate-800"></span></div>
                                 <div><span class="text-slate-500 block text-xs">DOB</span> <span id="rev-dob" class="font-semibold text-slate-800"></span></div>
                             </div>
@@ -409,6 +421,7 @@
                 if(data.full_name) getEl('fullName').value = data.full_name;
                 if(data.email) getEl('email').value = data.email;
                 if(data.phone) getEl('phone').value = data.phone;
+                if(data.aadhar) getEl('aadhar').value = data.aadhar;
                 if(data.dob) getEl('dob').value = data.dob;
                 if(data.category) getEl('category').value = data.category;
                 if(data.hall_ticket) getEl('hallTicket').value = data.hall_ticket;
@@ -424,8 +437,6 @@
 
         // ==========================================
         // 5. SAVE DRAFT TO DATABASE
-        // Note: Actual file uploads will be handled via Storage Buckets later. 
-        // This currently pushes all text fields to the DB.
         // ==========================================
         async function saveDraftToDB() {
             const payload = {
@@ -433,6 +444,7 @@
                 full_name: getVal('fullName') || null,
                 email: getVal('email') || null,
                 phone: getVal('phone') || null,
+                aadhar: getVal('aadhar') || null,
                 dob: getVal('dob') || null,
                 category: getVal('category') || null,
                 hall_ticket: getVal('hallTicket') || null,
@@ -467,6 +479,7 @@
             const stepPane = getEl(`step-${currentStep}`);
             const inputs = stepPane.querySelectorAll('input[required], select[required]');
             let isValid = true;
+            let customErrorMessage = "Please fill all required fields correctly.";
             
             inputs.forEach(input => {
                 input.classList.remove('border-red-500', 'bg-red-50');
@@ -476,7 +489,20 @@
                 }
             });
 
-            // Prevent picking the same branch twice
+            // Specific validation for Photo (Step 3) limit 100KB
+            if (currentStep === 3) {
+                const photoInput = getEl('docPhoto');
+                if (photoInput && photoInput.files.length > 0) {
+                    const fileSizeKB = photoInput.files[0].size / 1024;
+                    if (fileSizeKB > 100) {
+                        isValid = false;
+                        photoInput.classList.add('border-red-500', 'bg-red-50');
+                        customErrorMessage = "Photo size must be 100KB or less.";
+                    }
+                }
+            }
+
+            // Prevent picking the same branch twice (Step 4)
             if (currentStep === 4) {
                 const p1 = getVal('pref1'), p2 = getVal('pref2'), p3 = getVal('pref3');
                 if ((p1 && p1 === p2) || (p1 && p1 === p3) || (p2 && p2 === p3)) {
@@ -488,7 +514,7 @@
             }
 
             if (!isValid) {
-                getEl('error-text').textContent = "Please fill all required fields correctly.";
+                getEl('error-text').textContent = customErrorMessage;
                 getEl('error-message').classList.remove('hidden');
                 setTimeout(() => getEl('error-message').classList.add('hidden'), 4000);
             }
@@ -529,6 +555,7 @@
                 getEl('rev-name').textContent = getVal('fullName');
                 getEl('rev-email').textContent = getVal('email');
                 getEl('rev-phone').textContent = getVal('phone');
+                getEl('rev-aadhar').textContent = getVal('aadhar');
                 getEl('rev-category').textContent = getVal('category');
                 getEl('rev-dob').textContent = getVal('dob');
                 
