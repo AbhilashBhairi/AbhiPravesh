@@ -281,6 +281,28 @@
                                 <div class="flex items-center"><span class="bg-slate-100 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs mr-3">3</span> <span id="rev-pref3" class="font-medium text-slate-700"></span></div>
                             </div>
                         </div>
+
+                        <div>
+                            <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-3 mt-6">4. Uploaded Documents</h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <div>
+                                    <span class="text-slate-500 block text-xs mb-2">Photo</span>
+                                    <div id="prev-docPhoto"></div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-xs mb-2">SSC Memo</span>
+                                    <div id="prev-docSSC"></div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-xs mb-2">Rank Card</span>
+                                    <div id="prev-docRankCard"></div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 block text-xs mb-2">ePASS</span>
+                                    <div id="prev-docEpass"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="mt-6 flex items-start bg-amber-50 p-4 rounded-xl border border-amber-200">
@@ -345,8 +367,8 @@
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-        const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1YWJrYm1ycWZ3dHBxdGFtdHpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MzMzMzcsImV4cCI6MjEwNzMwOTMzN30.bEw0hKTW4h-Jw9PrJ0DOrrBVRCQ5Q_dwLQDEyru6b2E';
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_ANON_KEY = 'YOUR_EYJ_KEY_HERE';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let currentUser = null;
@@ -391,7 +413,6 @@
             }
         }
 
-        // Upload Helper Function
         async function uploadFile(inputId, docPrefix) {
             const input = getEl(inputId);
             if (!input.files || input.files.length === 0) return null;
@@ -407,7 +428,6 @@
             return data.publicUrl;
         }
 
-        // Accepts extra payload (URLs) only generated at final step
         async function saveDraftToDB(extraPayload = {}) {
             const payload = {
                 user_id: currentUser.id,
@@ -433,6 +453,27 @@
             } else {
                 const { data } = await supabase.from('applications').insert(payload).select().single();
                 if (data) dbRecordId = data.id;
+            }
+        }
+
+        // Preview Generator for Step 5
+        function generateLocalPreview(inputId, previewElId) {
+            const input = getEl(inputId);
+            const container = getEl(previewElId);
+            container.innerHTML = ''; 
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.className = 'w-full h-24 object-cover rounded-lg border border-slate-200 shadow-sm';
+                    container.appendChild(img);
+                } else {
+                    container.innerHTML = `<div class="w-full h-24 bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center flex-col text-slate-500 shadow-sm"><svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg><span class="text-[10px] font-bold">PDF Doc</span></div>`;
+                }
+            } else {
+                container.innerHTML = `<div class="w-full h-24 bg-slate-50 rounded-lg border border-dashed border-slate-300 flex items-center justify-center text-[10px] text-slate-400 font-medium">Not uploaded</div>`;
             }
         }
 
@@ -531,6 +572,12 @@
                 getEl('rev-pref1').textContent = getText('pref1');
                 getEl('rev-pref2').textContent = getText('pref2');
                 getEl('rev-pref3').textContent = getText('pref3');
+
+                // Generate Live Image Previews!
+                generateLocalPreview('docPhoto', 'prev-docPhoto');
+                generateLocalPreview('docSSC', 'prev-docSSC');
+                generateLocalPreview('docRankCard', 'prev-docRankCard');
+                generateLocalPreview('docEpass', 'prev-docEpass');
             } else {
                 btnNext.innerHTML = `<span id="btn-next-text">Continue to Next Step</span>`;
                 btnNext.className = "px-8 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 shadow-lg transition-all flex items-center";
@@ -546,7 +593,6 @@
                     btnNext.innerHTML = `<div class="spinner mr-2"></div> Uploading Files...`;
                     btnNext.disabled = true;
 
-                    // Push physical files to bucket and grab URLs
                     const photoUrl = await uploadFile('docPhoto', 'photo');
                     const sscUrl = await uploadFile('docSSC', 'ssc');
                     const rankUrl = await uploadFile('docRankCard', 'rank_card');
@@ -554,7 +600,6 @@
 
                     btnNext.innerHTML = `<div class="spinner mr-2"></div> Finalizing...`;
                     
-                    // Push the text data AND the generated image URLs to the database
                     await saveDraftToDB({
                         doc_photo: photoUrl,
                         doc_ssc: sscUrl,
