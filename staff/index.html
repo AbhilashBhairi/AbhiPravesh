@@ -175,7 +175,7 @@
                 </div>
 
                 <div>
-                    <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-4 border-b border-slate-100 pb-2">3. Branch Preferences</h4>
+                    <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-4 border-b border-slate-100 pb-2">3. Branch Selection</h4>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Admission Quota</label>
@@ -184,19 +184,9 @@
                                 <option value="Category-B">Category-B (Management - 30%)</option>
                             </select>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                            <div class="p-3 bg-primary-50/50 border border-primary-100 rounded-lg">
-                                <label class="block text-[10px] font-bold text-primary-600 uppercase mb-1">1st Preference</label>
-                                <input id="m-pref1" type="text" disabled class="data-input w-full text-sm font-bold border rounded py-1 focus:ring-1 focus:ring-primary-500 outline-none">
-                            </div>
-                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">2nd Preference</label>
-                                <input id="m-pref2" type="text" disabled class="data-input w-full text-sm font-medium border rounded py-1 focus:ring-1 focus:ring-primary-500 outline-none">
-                            </div>
-                            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">3rd Preference</label>
-                                <input id="m-pref3" type="text" disabled class="data-input w-full text-sm font-medium border rounded py-1 focus:ring-1 focus:ring-primary-500 outline-none">
-                            </div>
+                        <div class="p-3 bg-primary-50/50 border border-primary-100 rounded-lg">
+                            <label class="block text-[10px] font-bold text-primary-600 uppercase mb-1">Preferred Branch</label>
+                            <input id="m-pref1" type="text" disabled class="data-input w-full text-sm font-bold border rounded py-1 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
                     </div>
                 </div>
@@ -325,8 +315,6 @@
             document.getElementById('m-board').value = app.board || '';
             document.getElementById('m-quota').value = app.quota || '';
             document.getElementById('m-pref1').value = app.pref1 || '';
-            document.getElementById('m-pref2').value = app.pref2 || '';
-            document.getElementById('m-pref3').value = app.pref3 || '';
 
             // Generate Image Previews for the Admin
             const setupDocPreview = (title, url) => {
@@ -423,9 +411,7 @@
                 inter_marks: document.getElementById('m-inter').value ? parseFloat(document.getElementById('m-inter').value) : null,
                 board: document.getElementById('m-board').value,
                 quota: document.getElementById('m-quota').value,
-                pref1: document.getElementById('m-pref1').value,
-                pref2: document.getElementById('m-pref2').value,
-                pref3: document.getElementById('m-pref3').value,
+                pref1: document.getElementById('m-pref1').value
             };
 
             const { error } = await supabase.from('applications').update(payload).eq('id', currentEditingId);
