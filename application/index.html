@@ -93,7 +93,6 @@
 
             <form id="admission-form" class="p-6 sm:p-10" novalidate>
                 
-                <!-- STEP 1: Personal -->
                 <div id="step-1" class="step-pane active">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Personal Information</h2>
                     <p class="text-slate-500 mb-8 text-sm">Please provide your details exactly as they appear on your official documents.</p>
@@ -103,27 +102,22 @@
                             <label class="block text-sm font-medium text-slate-700 mb-1">Full Name <span class="text-red-500">*</span></label>
                             <input type="text" id="fullName" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
                         </div>
-                        
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Backup Email Address <span class="text-red-500">*</span></label>
                             <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
                         </div>
-                        
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Mobile Number <span class="text-red-500">*</span></label>
                             <input type="tel" id="phone" required pattern="[0-9]{10}" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Date of Birth <span class="text-red-500">*</span></label>
                             <input type="date" id="dob" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Aadhar Number <span class="text-red-500">*</span></label>
                             <input type="text" id="aadhar" required pattern="[0-9]{12}" title="Please enter a valid 12-digit Aadhar number" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
                         </div>
-
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-slate-700 mb-1">Social Category <span class="text-red-500">*</span></label>
                             <select id="category" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 outline-none">
@@ -139,7 +133,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 2: Academic -->
                 <div id="step-2" class="step-pane">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Academic Records</h2>
                     <p class="text-slate-500 mb-8 text-sm">Enter your past academic performance and entrance exam scores.</p>
@@ -172,7 +165,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 3: Documents -->
                 <div id="step-3" class="step-pane">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Document Uploads</h2>
                     <p class="text-slate-500 mb-8 text-sm">Upload clear scanned copies of your official documents. <strong>Max size: 100KB per file.</strong></p>
@@ -204,7 +196,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 4: Branch -->
                 <div id="step-4" class="step-pane">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Branch Preferences</h2>
                     <p class="text-slate-500 mb-8 text-sm">Select your admission route and top 3 preferred engineering branches.</p>
@@ -255,13 +246,11 @@
                     </div>
                 </div>
 
-                <!-- STEP 5: Review -->
                 <div id="step-5" class="step-pane">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Review Application</h2>
                     <p class="text-slate-500 mb-6 text-sm">Please verify all details before final submission. This action cannot be undone.</p>
                     
                     <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-6">
-                        
                         <div>
                             <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-3">1. Personal Profile</h4>
                             <div class="grid grid-cols-2 gap-y-3 gap-x-4 text-sm bg-white p-4 rounded-xl border border-slate-100">
@@ -292,7 +281,6 @@
                                 <div class="flex items-center"><span class="bg-slate-100 text-slate-600 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs mr-3">3</span> <span id="rev-pref3" class="font-medium text-slate-700"></span></div>
                             </div>
                         </div>
-
                     </div>
                     
                     <div class="mt-6 flex items-start bg-amber-50 p-4 rounded-xl border border-amber-200">
@@ -306,11 +294,8 @@
                     </div>
                 </div>
 
-                <!-- Footer Navigation -->
                 <div class="mt-8 pt-6 border-t border-slate-200 flex items-center justify-between">
-                    <button type="button" id="btn-prev" class="hidden px-6 py-3 border-2 border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition-colors">
-                        &larr; Back
-                    </button>
+                    <button type="button" id="btn-prev" class="hidden px-6 py-3 border-2 border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition-colors">&larr; Back</button>
                     <div class="flex-grow"></div>
                     <div class="flex items-center">
                         <span id="save-status" class="text-sm font-bold text-primary-600 mr-4 opacity-0 transition-opacity flex items-center">
@@ -324,7 +309,6 @@
             </form>
         </div>
 
-        <!-- Success Dashboard -->
         <div id="success-dashboard" class="hidden bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 p-8 sm:p-12 text-center transform scale-95 opacity-0 transition-all duration-500">
             <div class="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-green-100 mb-6 shadow-inner">
                 <svg class="h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -335,31 +319,24 @@
             <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 text-left max-w-md mx-auto mb-10 shadow-sm relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-16 h-16 bg-primary-100 rounded-bl-full -z-0"></div>
                 <h4 class="font-bold text-slate-800 border-b border-slate-200 pb-3 mb-4 relative z-10">Application Receipt</h4>
-                
                 <div class="space-y-4 text-sm relative z-10">
                     <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-3">
-                        <span class="text-slate-500">Applicant Name</span>
-                        <span class="font-bold text-slate-800 text-base" id="succ-name"></span>
+                        <span class="text-slate-500">Applicant Name</span><span class="font-bold text-slate-800 text-base" id="succ-name"></span>
                     </div>
                     <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-3">
-                        <span class="text-slate-500">Reference ID</span>
-                        <span class="font-mono font-bold text-primary-700 bg-primary-50 px-2 py-1 rounded text-base border border-primary-200" id="succ-id"></span>
+                        <span class="text-slate-500">Reference ID</span><span class="font-mono font-bold text-primary-700 bg-primary-50 px-2 py-1 rounded text-base border border-primary-200" id="succ-id"></span>
                     </div>
                     <div class="flex justify-between items-center pb-1">
-                        <span class="text-slate-500">Status</span>
-                        <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold uppercase tracking-wide">Under Review</span>
+                        <span class="text-slate-500">Status</span><span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold uppercase tracking-wide">Under Review</span>
                     </div>
                 </div>
             </div>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <button id="btn-download-receipt" class="px-6 py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 shadow-lg transition-all flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Download Receipt
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg> Download Receipt
                 </button>
-                <a href="/" id="btn-home" class="px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all decoration-transparent flex items-center justify-center">
-                    Return Home
-                </a>
+                <a href="/" id="btn-home" class="px-6 py-3 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all decoration-transparent flex items-center justify-center">Return Home</a>
             </div>
         </div>
 
@@ -368,54 +345,33 @@
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-        // ==========================================
-        // 1. SUPABASE CONNECTION
-        // ==========================================
-        const SUPABASE_URL = 'https://yuabkbmrqfwtpqtamtzs.supabase.co';
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
         const SUPABASE_ANON_KEY = 'YOUR_EYJ_KEY_HERE';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let currentUser = null;
         let dbRecordId = null;
 
-        // ==========================================
-        // 2. SESSION & SECURITY CHECK
-        // ==========================================
         async function checkSession() {
             const { data: { session }, error } = await supabase.auth.getSession();
-            if (!session) {
-                window.location.href = '/auth/login';
-                return;
-            }
+            if (!session) { window.location.href = '/auth/login'; return; }
             currentUser = session.user;
             document.getElementById('user-email-display').textContent = currentUser.email;
             document.getElementById('page-body').classList.remove('hidden'); 
-            
             loadDraft(); 
         }
 
-        // ==========================================
-        // 3. LOGOUT LOGIC
-        // ==========================================
         document.getElementById('btn-logout').addEventListener('click', async () => {
             await supabase.auth.signOut();
             window.location.href = '/auth/login';
         });
 
-        // ==========================================
-        // 4. LOAD SAVED DRAFT FROM DATABASE
-        // ==========================================
         const getEl = id => document.getElementById(id);
         const getVal = id => getEl(id).value;
         const getText = id => { const el = getEl(id); return el.options[el.selectedIndex]?.text || ''; };
 
         async function loadDraft() {
-            const { data, error } = await supabase
-                .from('applications')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .single();
-
+            const { data } = await supabase.from('applications').select('*').eq('user_id', currentUser.id).single();
             if (data) {
                 dbRecordId = data.id;
                 if(data.full_name) getEl('fullName').value = data.full_name;
@@ -435,10 +391,24 @@
             }
         }
 
-        // ==========================================
-        // 5. SAVE DRAFT TO DATABASE
-        // ==========================================
-        async function saveDraftToDB() {
+        // Upload Helper Function
+        async function uploadFile(inputId, docPrefix) {
+            const input = getEl(inputId);
+            if (!input.files || input.files.length === 0) return null;
+            
+            const file = input.files[0];
+            const fileExt = file.name.split('.').pop();
+            const filePath = `${currentUser.id}/${docPrefix}.${fileExt}`;
+            
+            const { error } = await supabase.storage.from('documents').upload(filePath, file, { upsert: true });
+            if (error) return null;
+            
+            const { data } = supabase.storage.from('documents').getPublicUrl(filePath);
+            return data.publicUrl;
+        }
+
+        // Accepts extra payload (URLs) only generated at final step
+        async function saveDraftToDB(extraPayload = {}) {
             const payload = {
                 user_id: currentUser.id,
                 full_name: getVal('fullName') || null,
@@ -454,25 +424,22 @@
                 quota: getVal('quota') || null,
                 pref1: getVal('pref1') || null,
                 pref2: getVal('pref2') || null,
-                pref3: getVal('pref3') || null
+                pref3: getVal('pref3') || null,
+                ...extraPayload
             };
 
             if (dbRecordId) {
                 await supabase.from('applications').update(payload).eq('id', dbRecordId);
             } else {
-                const { data, error } = await supabase.from('applications').insert(payload).select().single();
+                const { data } = await supabase.from('applications').insert(payload).select().single();
                 if (data) dbRecordId = data.id;
             }
         }
 
-        // ==========================================
-        // 6. MULTI-STEP UI LOGIC
-        // ==========================================
         let currentStep = 1;
         const totalSteps = 5;
         const btnPrev = getEl('btn-prev');
         const btnNext = getEl('btn-next');
-        const btnNextText = getEl('btn-next-text');
         const saveStatus = getEl('save-status');
 
         function validateStep() {
@@ -489,7 +456,6 @@
                 }
             });
 
-            // 100KB validation for ALL files in Step 3
             if (currentStep === 3) {
                 const fileInputs = stepPane.querySelectorAll('input[type="file"]');
                 fileInputs.forEach(input => {
@@ -504,7 +470,6 @@
                 });
             }
 
-            // Prevent picking the same branch twice (Step 4)
             if (currentStep === 4) {
                 const p1 = getVal('pref1'), p2 = getVal('pref2'), p3 = getVal('pref3');
                 if ((p1 && p1 === p2) || (p1 && p1 === p3) || (p2 && p2 === p3)) {
@@ -553,19 +518,16 @@
                 btnNext.innerHTML = 'Submit Final Application';
                 btnNext.className = "px-8 py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 shadow-lg transition-all flex items-center";
                 
-                // Populate Review Screen
                 getEl('rev-name').textContent = getVal('fullName');
                 getEl('rev-email').textContent = getVal('email');
                 getEl('rev-phone').textContent = getVal('phone');
                 getEl('rev-aadhar').textContent = getVal('aadhar');
                 getEl('rev-category').textContent = getVal('category');
                 getEl('rev-dob').textContent = getVal('dob');
-                
                 getEl('rev-ht').textContent = getVal('hallTicket');
                 getEl('rev-rank').textContent = getVal('rank');
                 getEl('rev-inter').textContent = getVal('interMarks') + '% (' + getVal('board') + ')';
                 getEl('rev-quota').textContent = getVal('quota');
-                
                 getEl('rev-pref1').textContent = getText('pref1');
                 getEl('rev-pref2').textContent = getText('pref2');
                 getEl('rev-pref3').textContent = getText('pref3');
@@ -578,16 +540,44 @@
 
         btnNext.addEventListener('click', async () => {
             if (validateStep()) {
-                const originalContent = btnNext.innerHTML;
                 const isFinal = currentStep === totalSteps;
                 
-                btnNext.innerHTML = `<div class="spinner mr-2"></div> ${isFinal ? 'Submitting...' : 'Saving...'}`;
-                btnNext.disabled = true;
+                if (isFinal) {
+                    btnNext.innerHTML = `<div class="spinner mr-2"></div> Uploading Files...`;
+                    btnNext.disabled = true;
 
-                // Fire the auto-save to database
-                await saveDraftToDB();
+                    // Push physical files to bucket and grab URLs
+                    const photoUrl = await uploadFile('docPhoto', 'photo');
+                    const sscUrl = await uploadFile('docSSC', 'ssc');
+                    const rankUrl = await uploadFile('docRankCard', 'rank_card');
+                    const epassUrl = await uploadFile('docEpass', 'epass');
 
-                if (!isFinal) {
+                    btnNext.innerHTML = `<div class="spinner mr-2"></div> Finalizing...`;
+                    
+                    // Push the text data AND the generated image URLs to the database
+                    await saveDraftToDB({
+                        doc_photo: photoUrl,
+                        doc_ssc: sscUrl,
+                        doc_rank_card: rankUrl,
+                        doc_epass: epassUrl
+                    });
+
+                    setTimeout(() => {
+                        const appId = 'JNTUH-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                        getEl('application-container').style.display = 'none';
+                        const successScreen = getEl('success-dashboard');
+                        successScreen.classList.remove('hidden');
+                        getEl('succ-name').textContent = getVal('fullName');
+                        getEl('succ-id').textContent = appId;
+                        setTimeout(() => successScreen.classList.remove('scale-95', 'opacity-0'), 50);
+                    }, 500);
+
+                } else {
+                    btnNext.innerHTML = `<div class="spinner mr-2"></div> Saving...`;
+                    btnNext.disabled = true;
+                    
+                    await saveDraftToDB();
+                    
                     saveStatus.classList.remove('opacity-0');
                     setTimeout(() => {
                         btnNext.disabled = false;
@@ -595,18 +585,6 @@
                         currentStep++;
                         updateUI();
                     }, 800);
-                } else {
-                    setTimeout(() => {
-                        const appId = 'JNTUH-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
-                        getEl('application-container').style.display = 'none';
-                        const successScreen = getEl('success-dashboard');
-                        successScreen.classList.remove('hidden');
-                        
-                        getEl('succ-name').textContent = getVal('fullName');
-                        getEl('succ-id').textContent = appId;
-                        
-                        setTimeout(() => successScreen.classList.remove('scale-95', 'opacity-0'), 50);
-                    }, 1500);
                 }
             }
         });
@@ -616,8 +594,6 @@
         });
 
         getEl('btn-download-receipt').addEventListener('click', () => window.print());
-
-        // Fire on page load
         checkSession();
     </script>
 </body>
