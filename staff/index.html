@@ -73,7 +73,6 @@
                 </button>
             </div>
 
-            <!-- Mobile-Optimized Data Table -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="overflow-x-auto no-scrollbar">
                     <table class="w-full text-left border-collapse whitespace-nowrap">
@@ -142,6 +141,10 @@
                             <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Date of Birth</label>
                             <input id="m-dob" type="date" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
                         </div>
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-slate-400 uppercase mb-1">Aadhar Number</label>
+                            <input id="m-aadhar" type="text" disabled class="data-input w-full text-sm font-medium border rounded py-1.5 focus:ring-1 focus:ring-primary-500 outline-none">
+                        </div>
                     </div>
                 </div>
 
@@ -201,12 +204,23 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Section 4: Attached Documents (NEW) -->
+                <div>
+                    <h4 class="text-xs uppercase tracking-widest text-primary-600 font-bold mb-4 border-b border-slate-100 pb-2">4. Uploaded Documents</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                        <a id="m-doc-photo" target="_blank" class="hidden px-3 py-2 bg-slate-100 text-primary-700 text-xs font-bold rounded-lg text-center hover:bg-primary-50 transition-colors border border-slate-200">Photo</a>
+                        <a id="m-doc-ssc" target="_blank" class="hidden px-3 py-2 bg-slate-100 text-primary-700 text-xs font-bold rounded-lg text-center hover:bg-primary-50 transition-colors border border-slate-200">SSC Memo</a>
+                        <a id="m-doc-rank" target="_blank" class="hidden px-3 py-2 bg-slate-100 text-primary-700 text-xs font-bold rounded-lg text-center hover:bg-primary-50 transition-colors border border-slate-200">Rank Card</a>
+                        <a id="m-doc-epass" target="_blank" class="hidden px-3 py-2 bg-slate-100 text-primary-700 text-xs font-bold rounded-lg text-center hover:bg-primary-50 transition-colors border border-slate-200">ePASS</a>
+                    </div>
+                    <p id="no-docs-message" class="hidden text-xs text-slate-500 mt-2">No documents uploaded for this application yet.</p>
+                </div>
+
             </form>
         </div>
 
-        <!-- Mobile-Optimized Footer Action Bar -->
         <div class="px-5 sm:px-8 py-4 sm:py-5 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-center gap-3">
-            
             <div id="action-controls-read" class="flex flex-col sm:flex-row gap-3 w-full sm:justify-between">
                 <button onclick="updateStatus('Rejected')" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-red-100 text-red-700 font-bold rounded-xl hover:bg-red-200 transition-colors flex justify-center items-center">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg> Reject
@@ -310,6 +324,7 @@
             document.getElementById('m-name').value = app.full_name || '';
             document.getElementById('m-email').value = app.email || '';
             document.getElementById('m-phone').value = app.phone || '';
+            document.getElementById('m-aadhar').value = app.aadhar || '';
             document.getElementById('m-dob').value = app.dob || '';
             document.getElementById('m-category').value = app.category || '';
             document.getElementById('m-ht').value = app.hall_ticket || '';
@@ -320,6 +335,30 @@
             document.getElementById('m-pref1').value = app.pref1 || '';
             document.getElementById('m-pref2').value = app.pref2 || '';
             document.getElementById('m-pref3').value = app.pref3 || '';
+
+            // Handle Document Links
+            const setupDocLink = (elemId, url) => {
+                const el = document.getElementById(elemId);
+                if (url) {
+                    el.href = url;
+                    el.classList.remove('hidden');
+                    el.classList.add('block');
+                } else {
+                    el.classList.add('hidden');
+                    el.classList.remove('block');
+                }
+            };
+            
+            setupDocLink('m-doc-photo', app.doc_photo);
+            setupDocLink('m-doc-ssc', app.doc_ssc);
+            setupDocLink('m-doc-rank', app.doc_rank_card);
+            setupDocLink('m-doc-epass', app.doc_epass);
+            
+            if (!app.doc_photo && !app.doc_ssc && !app.doc_rank_card && !app.doc_epass) {
+                document.getElementById('no-docs-message').classList.remove('hidden');
+            } else {
+                document.getElementById('no-docs-message').classList.add('hidden');
+            }
 
             document.getElementById('drawer-backdrop').classList.remove('hidden');
             setTimeout(() => {
@@ -365,6 +404,7 @@
                 full_name: document.getElementById('m-name').value,
                 email: document.getElementById('m-email').value,
                 phone: document.getElementById('m-phone').value,
+                aadhar: document.getElementById('m-aadhar').value,
                 dob: document.getElementById('m-dob').value,
                 category: document.getElementById('m-category').value,
                 hall_ticket: document.getElementById('m-ht').value,
